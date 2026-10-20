@@ -1,0 +1,66 @@
+{
+  "name": "@privatus/nuxt",
+  "version": "0.1.0",
+  "description": "Privatus Analytics module for Nuxt 3",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "keywords": [
+    "analytics",
+    "privacy",
+    "cookieless",
+    "nuxt",
+    "privatus"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json",
+    "./runtime": {
+      "import": {
+        "types": "./dist/runtime.d.ts",
+        "default": "./dist/runtime.js"
+      },
+      "require": {
+        "types": "./dist/runtime.d.cts",
+        "default": "./dist/runtime.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p . && tsup",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@privatus/tracker": "^0.1.0",
+    "@nuxt/kit": "^3.14.0"
+  },
+  "peerDependencies": {
+    "nuxt": ">=3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "jsdom": "^25.0.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
+  }
+}

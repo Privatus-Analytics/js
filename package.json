@@ -1,0 +1,11 @@
+{
+  "name": "privatus-js",
+  "private": true,
+  "description": "Workspace for the Privatus Analytics JavaScript packages. Each folder is published on its own.",
+  "workspaces": ["tracker", "react", "next", "vue", "svelte", "nuxt", "astro"],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run build -w @privatus/tracker && npm test --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  }
+}

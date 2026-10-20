@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+*.tgz
+.secrets/
+.DS_Store
+SUBMISSION.md
+.env
+.env.local
