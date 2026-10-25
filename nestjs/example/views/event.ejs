@@ -1,0 +1,9 @@
+<%- include('layout-head', { title: 'Events' }) %>
+<h1>Events</h1>
+<button type="button" <%- privatusEventAttrs('Report exported', { format: 'csv', source: 'toolbar' }) %>>Export report</button>
+<p><a href="#pricing" <%- privatusClickAttr('pricing.cta') %>>Pricing</a></p>
+<form action="/event" method="get" <%- privatusEventAttrs('Signup form') %>>
+  <button type="submit">Sign up</button>
+</form>
+</body>
+</html>

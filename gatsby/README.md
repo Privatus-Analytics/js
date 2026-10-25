@@ -57,7 +57,8 @@ of every page in `gatsby build`:
 (React writes `defer=""`. It means the same as `defer`.)
 
 It prints nothing when there is no site id, and nothing in `gatsby develop`,
-so your own visits while you build are never counted. Gatsby moves between
+so your own visits while you build are never counted. The one exception is the
+queue stub: when you turn it on, it still prints (see below). Gatsby moves between
 pages without a full reload. The tracker notices those page changes by itself,
 so every page you open is counted.
 
@@ -199,9 +200,12 @@ privatus.track("Feature used", { feature: "export" })
 
 If your code may run before the tracker has loaded, switch on the queue stub
 with `queueStub: true`. It prints a tiny script before the tracker that keeps
-your calls in a list and sends them once the tracker is ready. Like the tag,
-the stub prints only where the tag is on, so in development use
-`window.privatus && privatus.track(...)`.
+your calls in a list and sends them once the tracker is ready.
+
+The stub prints even where the tag is off (in development, with
+`enabled: false` or without a site id). Then only the stub prints: no tracker
+and no page props. So you can always call `privatus.track(...)`. In
+development the calls just wait in the queue and are never sent.
 
 ### See the results
 
@@ -220,6 +224,15 @@ The script sets no cookies and stores nothing in the browser. The plugin only ad
 Keep people out of your props and event props: no names, emails or user ids.
 See the [privacy documentation](https://privatusanalytics.com/docs/privacy)
 for what is collected.
+
+If you have a privacy policy, it should say which tools handle your visitors' data. You can paste this:
+
+> This website uses [Privatus Analytics](https://privatusanalytics.com/privacy-analytics) to count visits. It
+> does not use cookies and does not follow you from one website to another. Your IP address is used for a moment
+> to count visits and is never stored.
+
+Change it to fit your site. The [privacy policy generator](https://privatusanalytics.com/tools/privacy-policy-generator)
+makes a longer version with your site's name in it.
 
 ## Development
 

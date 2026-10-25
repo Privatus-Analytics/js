@@ -7,6 +7,7 @@
   `https://privatusstats.com`. Setting `api` or `src` works as before.
 - The tests that run the real `pa.js` now use copies kept in `test/fixtures/`, so they pass without the app
   repo next to this one. `scripts/refresh-tracker-fixtures.sh` updates the copies.
+- README: a privacy section, with a paragraph you can paste into your privacy policy.
 
 ## 0.1.0 - 2026-10-20
 

@@ -16,6 +16,7 @@ import {
   canInjectInto,
   clickAttr,
   contextTag,
+  willPrint,
   eventAttrs,
   injectTag,
   type BaseOptions,
@@ -98,7 +99,8 @@ export function privatusPlugin(eleventyConfig: EleventyConfigLike, options: Priv
     eleventyConfig.addTransform('privatus-analytics', function (content: string, legacyOutputPath?: string | false) {
       const outputPath = this.page?.outputPath ?? this.outputPath ?? legacyOutputPath
       if (typeof content !== 'string' || typeof outputPath !== 'string' || !outputPath.endsWith('.html')) return content
-      if (!canInjectInto(content)) return content
+      // A tag that is off adds nothing here, not even the queue stub. The shortcode prints that.
+      if (!canInjectInto(content) || !willPrint(base, runtime())) return content
       return injectTag(content, tag(this.page ?? { outputPath }))
     })
   }

@@ -38,4 +38,18 @@ The plugin gives you:
 
 Vue Router navigations are tracked automatically. For Nuxt, use [`@privatus-analytics/nuxt`](../nuxt).
 
+## Privacy
+
+The tracker sets no cookies and uses no device ids. This package only loads it. See the
+[privacy documentation](https://privatusanalytics.com/docs/privacy) for what is collected.
+
+If you have a privacy policy, it should say which tools handle your visitors' data. You can paste this:
+
+> This website uses [Privatus Analytics](https://privatusanalytics.com/privacy-analytics) to count visits. It
+> does not use cookies and does not follow you from one website to another. Your IP address is used for a moment
+> to count visits and is never stored.
+
+Change it to fit your site. The [privacy policy generator](https://privatusanalytics.com/tools/privacy-policy-generator)
+makes a longer version with your site's name in it.
+
 MIT licensed.

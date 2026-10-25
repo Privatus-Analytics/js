@@ -13,6 +13,7 @@
 import {
   contextElements,
   contextTag,
+  willPrint,
   injectTag,
   canInjectInto,
   type BaseOptions,
@@ -113,8 +114,10 @@ export function privatusVitePlugin(options: PrivatusViteOptions = {}): PrivatusV
     transformIndexHtml: {
       order: 'post',
       handler(html, context) {
-        if (!canInjectInto(html)) return html
-        return injectTag(html, contextTag(options, context, null, { defaultEnabled: isProduction }))
+        const runtime = { defaultEnabled: isProduction }
+        // A tag that is off adds nothing here, not even the queue stub.
+        if (!canInjectInto(html) || !willPrint(options, runtime)) return html
+        return injectTag(html, contextTag(options, context, null, runtime))
       },
     },
   }

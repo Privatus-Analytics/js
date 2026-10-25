@@ -1,9 +1,17 @@
 {
   "name": "@privatus-analytics/next",
   "version": "0.1.0",
-  "description": "Privatus Analytics for Next.js: <PrivatusAnalytics /> component and usePrivatus() hook",
+  "description": "Privatus Analytics for Next.js: a server-rendered script tag with page props, event and click attributes, and a <PrivatusAnalytics /> component and usePrivatus() hook",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "next"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
   "keywords": [
     "analytics",
     "privacy",
@@ -27,6 +35,16 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./server": {
+      "import": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": {
+        "types": "./dist/server.d.cts",
+        "default": "./dist/server.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -47,6 +65,7 @@
     "react": ">=18"
   },
   "devDependencies": {
+    "@privatus-analytics/html-core": "1.0.0",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

@@ -1,7 +1,7 @@
 import compress from '@fastify/compress'
 import Fastify, { type FastifyInstance } from 'fastify'
 import { describe, expect, it, vi } from 'vitest'
-import privatus, { clickAttr, eventAttrs, type PrivatusFastifyOptions } from '../src/index.js'
+import privatus, { QUEUE_STUB, clickAttr, eventAttrs, type PrivatusFastifyOptions } from '../src/index.js'
 
 const SNIPPET = '<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_TEST123456"></script>'
 const PAGE = '<html><head><title>Plain</title></head><body>Plain</body></html>'
@@ -23,6 +23,11 @@ async function app(options: PrivatusFastifyOptions, after?: (app: FastifyInstanc
   app.get('/buffer', async (_request, reply) => reply.type('text/html').send(Buffer.from(PAGE)))
   app.get('/data', async () => ({ html: '</head>' }))
   app.get('/bare', async (_request, reply) => reply.type('text/html').send('<p>No head here</p>'))
+  app.get('/off', async (request, reply) => {
+    const query = request.query as { stub?: string; nonce?: string }
+    if (query.nonce) (reply as unknown as { cspNonce: { script: string } }).cspNonce = { script: query.nonce }
+    return reply.type('text/html').send(`<head>${reply.privatusAnalyticsTag({ enabled: false, queueStub: query.stub === '1' })}</head>`)
+  })
   app.get('/nonce', async (_request, reply) => {
     ;(reply as unknown as { cspNonce: { script: string } }).cspNonce = { script: 'n0nce' }
     return reply.type('text/html').send(PAGE)
@@ -63,6 +68,29 @@ describe('reply.privatusAnalyticsTag', () => {
     expect(body).toContain(SNIPPET)
     expect(body).toContain('<button data-privatus-event="Export CSV" data-privatus-prop-format="csv">')
     expect(a.privatus.clickAttr('pricing.cta')).toBe('data-privatus-click="pricing.cta"')
+  })
+})
+
+describe('when the tag is off', () => {
+  it('prints only the queue stub, with the nonce, and does not run the props function', async () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    expect((await (await app({ props })).inject('/off?stub=1&nonce=n0nce')).body).toBe(`<head><script nonce="n0nce">${QUEUE_STUB}</script></head>`)
+    expect((await (await app({ props })).inject('/off?stub=1')).body).toBe(`<head><script>${QUEUE_STUB}</script></head>`)
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('prints nothing with the queue stub off', async () => {
+    expect((await (await app({ props: { plan: 'pro' } })).inject('/off?nonce=n0nce')).body).toBe('<head></head>')
+  })
+
+  it('prints only the queue stub without a site id', async () => {
+    const { body } = await (await app({ enabled: true, siteId: null, queueStub: true, props: { plan: 'pro' } })).inject('/')
+    expect(body).toBe(`<html><head><script>${QUEUE_STUB}</script></head><body></body></html>`)
+  })
+
+  it('auto inject adds nothing, even with the queue stub on', async () => {
+    expect((await (await app({ autoInject: true, queueStub: true })).inject('/plain')).body).toBe(PAGE)
+    expect((await (await app({ autoInject: true, queueStub: true, enabled: false })).inject('/plain')).body).toBe(PAGE)
   })
 })
 

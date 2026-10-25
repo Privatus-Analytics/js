@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { build as viteBuild } from 'vite'
 import { build as vitepressBuild } from 'vitepress'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { QUEUE_STUB } from '@privatus-analytics/html-core'
 import { privatusHead, privatusTransformHead, privatusVitePlugin } from '../src/index.js'
 
 const SITE = fileURLToPath(new URL('./vp-site', import.meta.url))
@@ -54,6 +55,16 @@ describe('privatusHead', () => {
     expect(privatusHead({})).toEqual([])
   })
 
+  it('when off, gives only the queue stub (when it is on), never the tracker or page props', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    const stub = ['script', {}, QUEUE_STUB]
+    expect(privatusHead({ siteId: 'pa_VP', queueStub: true, props: { plan: 'pro' } })).toEqual([stub])
+    expect(privatusHead({ queueStub: true })).toEqual([stub])
+    expect(privatusHead({ siteId: 'pa_VP', props: { plan: 'pro' } })).toEqual([])
+    vi.stubEnv('NODE_ENV', 'production')
+    expect(privatusHead({ siteId: 'pa_VP', enabled: false, queueStub: true, nonce: 'abc' })).toEqual([['script', { nonce: 'abc' }, QUEUE_STUB]])
+  })
+
   it('works in a real vitepress build', async () => {
     const read = await buildDocs({ head: privatusHead({ siteId: 'pa_VP', enabled: true, modules: ['engage', 'auto'] }) })
     const home = read('index.html')
@@ -85,6 +96,13 @@ describe('privatusTransformHead', () => {
     const hook = privatusTransformHead({ siteId: 'pa_VP', enabled: false })
     expect(hook({ page: 'index.md', pageData: { relativePath: 'index.md' } })).toEqual([])
   })
+
+  it('switched off with the queue stub on, gives only the stub and does not run the props function', () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    const hook = privatusTransformHead({ siteId: 'pa_VP', enabled: false, queueStub: true, props })
+    expect(hook({ page: 'index.md', pageData: { relativePath: 'index.md' } })).toEqual([['script', {}, QUEUE_STUB]])
+    expect(props).not.toHaveBeenCalled()
+  })
 })
 
 describe('privatusVitePlugin', () => {
@@ -102,6 +120,21 @@ describe('privatusVitePlugin', () => {
     expect(html).toContain('<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_VITE" data-props="privatusPageProps"></script>\n</head>')
     expect(html).toContain('{"page":"/index.html"}')
   }, 120_000)
+
+  it('adds nothing when the tag is off, not even the queue stub', () => {
+    const page = '<html><head></head><body></body></html>'
+    const ctx = { path: '/index.html', filename: '/app/index.html' } as never
+    const dev = privatusVitePlugin({ siteId: 'pa_VITE', queueStub: true })
+    dev.configResolved({ isProduction: false })
+    expect(dev.transformIndexHtml.handler(page, ctx)).toBe(page)
+    const off = privatusVitePlugin({ siteId: 'pa_VITE', queueStub: true, enabled: false })
+    off.configResolved({ isProduction: true })
+    expect(off.transformIndexHtml.handler(page, ctx)).toBe(page)
+    vi.stubEnv('PRIVATUS_SITE_ID', '')
+    const noSite = privatusVitePlugin({ queueStub: true })
+    noSite.configResolved({ isProduction: true })
+    expect(noSite.transformIndexHtml.handler(page, ctx)).toBe(page)
+  })
 
   it('adds nothing for a development mode build', async () => {
     vi.stubEnv('NODE_ENV', 'development')

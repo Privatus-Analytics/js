@@ -79,7 +79,8 @@ In production it prints:
 ```
 
 The tag prints nothing when there is no site id, and nothing unless the
-`NODE_ENV` environment variable is `production`.
+`NODE_ENV` environment variable is `production`. The one exception is the queue
+stub: when you turn it on, it still prints (see below).
 
 If your app uses a Content Security Policy (a list of the scripts a page may
 run), the tag needs a nonce, a one-time code that allows inline scripts. With
@@ -296,9 +297,14 @@ privatus.track("Feature used", { feature: "export" })
 
 If your code may run before the tracker has loaded, switch on the queue stub
 with `queueStub: true`. It prints a tiny script before the tracker that keeps
-your calls in a list and sends them once the tracker is ready. Like the tag,
-the stub prints only where the tag is on, so in development use
-`window.privatus && privatus.track(...)`.
+your calls in a list and sends them once the tracker is ready.
+
+The stub prints even where the tag is off (in development, with
+`enabled: false` or without a site id). Then only the stub prints: no tracker
+and no page props. So you can always call `privatus.track(...)`. In
+development the calls just wait in the queue and are never sent.
+Auto inject adds nothing while the tag is off, so print the tag in your page
+if you want the stub there.
 
 ### See the results
 
@@ -318,6 +324,15 @@ Keep people out of your props and event props: no names, emails or user ids.
 See the [privacy documentation](https://privatusanalytics.com/docs/privacy)
 for what is collected.
 
+If you have a privacy policy, it should say which tools handle your visitors' data. You can paste this:
+
+> This website uses [Privatus Analytics](https://privatusanalytics.com/privacy-analytics) to count visits. It
+> does not use cookies and does not follow you from one website to another. Your IP address is used for a moment
+> to count visits and is never stored.
+
+Change it to fit your site. The [privacy policy generator](https://privatusanalytics.com/tools/privacy-policy-generator)
+makes a longer version with your site's name in it.
+
 ## Development
 
 This package lives in the `fastify` folder of the
@@ -330,6 +345,9 @@ The tests run in Docker so your local Node does not matter. From the repo root:
 
 It installs every package, then runs the repo's `build`, `test` and
 `typecheck` scripts in a `node:22-slim` container.
+
+`example/` is a small Fastify app for the Privatus Analytics conformance tests,
+which check the tag in a real browser.
 
 ## Contributing
 

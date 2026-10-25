@@ -12,6 +12,7 @@ import {
   renderTag,
   shouldInject,
   tagElements,
+  willPrint,
 } from '../src/index.js'
 
 const SNIPPET = '<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_TEST123456"></script>'
@@ -180,6 +181,24 @@ describe('the tag', () => {
     expect(parts[2]).toContain('/js/pa.js')
   })
 
+  it('when off with the queue stub on, prints only the stub, with the nonce', () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    expect(renderTag({ ...on, enabled: false, queueStub: true, nonce: 'abc', props })).toBe(`<script nonce="abc">${QUEUE_STUB}</script>`)
+    expect(renderTag({ ...on, enabled: false, queueStub: true })).toBe(`<script>${QUEUE_STUB}</script>`)
+    expect(props).not.toHaveBeenCalled()
+    expect(tagElements({ ...on, enabled: false, queueStub: true, nonce: 'abc' })).toEqual([{ attributes: { nonce: 'abc' }, code: QUEUE_STUB }])
+  })
+
+  it('when off with the queue stub off, prints nothing at all', () => {
+    expect(renderTag({ ...on, enabled: false, queueStub: false, nonce: 'abc', props: { plan: 'pro' } })).toBe('')
+    expect(tagElements({ ...on, enabled: false, props: { plan: 'pro' } })).toEqual([])
+  })
+
+  it('without a site id and the queue stub on, prints only the stub', () => {
+    expect(renderTag({ enabled: true, env: {}, queueStub: true, props: { plan: 'pro' } })).toBe(`<script>${QUEUE_STUB}</script>`)
+    expect(renderTag({ enabled: true, env: {}, queueStub: true, nonce: 'abc' })).toBe(`<script nonce="abc">${QUEUE_STUB}</script>`)
+  })
+
   it('gives script elements for tools that want objects', () => {
     expect(tagElements({ ...on, props: { plan: 'pro' } })).toEqual([
       { attributes: {}, code: 'window.privatusPageProps=function(){return {"plan":"pro"}}' },
@@ -200,6 +219,21 @@ describe('context glue', () => {
     const props = vi.fn(() => ({ plan: 'pro' }))
     expect(contextTag({ siteId: 'pa_X', props }, {}, null, { ...runtime, defaultEnabled: false })).toBe('')
     expect(props).not.toHaveBeenCalled()
+  })
+
+  it('when off, the queue stub still prints and the props function is not called', () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    const off = { ...runtime, defaultEnabled: false, nonce: 'fw' }
+    expect(contextTag({ siteId: 'pa_X', props, queueStub: true }, {}, null, off)).toBe(`<script nonce="fw">${QUEUE_STUB}</script>`)
+    expect(contextTag({ siteId: 'pa_X', props }, {}, { enabled: false, queueStub: true }, runtime)).toBe(`<script>${QUEUE_STUB}</script>`)
+    expect(contextTag({ siteId: 'pa_X', props, queueStub: true }, {}, { enabled: false, queueStub: false }, runtime)).toBe('')
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('willPrint stays false when only the queue stub would print, so auto inject adds nothing', () => {
+    expect(willPrint({ siteId: 'pa_X', queueStub: true }, { ...runtime, defaultEnabled: false })).toBe(false)
+    expect(willPrint({ queueStub: true }, runtime)).toBe(false)
+    expect(willPrint({ siteId: 'pa_X' }, runtime)).toBe(true)
   })
 
   it('enabled: per call beats configuration beats the default; overrides replace settings', () => {

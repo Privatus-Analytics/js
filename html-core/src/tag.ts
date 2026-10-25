@@ -98,16 +98,19 @@ export interface TagInput extends TagSettings {
 }
 
 /**
- * The script elements to print, in order, or [] when nothing should print
- * (no site id, or the tag is off).
+ * The script elements to print, in order.
+ *
+ * When the tag is off (turned off, or no site id) it gives only the queue stub when
+ * `queueStub` is on, so privatus.track calls in your own JavaScript queue up and never
+ * throw. Otherwise []. The props function is not called then.
  */
 export function tagElements(input: TagInput): ScriptElement[] {
   const env = 'env' in input ? input.env : defaultEnv()
   const siteId = resolveSiteId(input.siteId, env)
-  if (!siteId || !input.enabled) return []
-
   const nonce = clean(input.nonce) || undefined
   const inline = (code: string): ScriptElement => ({ attributes: nonce ? { nonce } : {}, code })
+  if (!siteId || !input.enabled) return input.queueStub === true ? [inline(QUEUE_STUB)] : []
+
   const json = pagePropsJson(typeof input.props === 'function' ? input.props() : input.props)
   const elements: ScriptElement[] = []
   if (input.queueStub === true) elements.push(inline(QUEUE_STUB))
@@ -148,7 +151,7 @@ export function renderElement(element: ScriptElement): string {
   return `<script${attrs}>${element.code ?? ''}</script>`
 }
 
-/** The full tag as HTML, or '' when nothing should print. */
+/** The full tag as HTML. When the tag is off: only the queue stub (when it is on), else ''. */
 export function renderTag(input: TagInput): string {
   return tagElements(input).map(renderElement).join('\n')
 }

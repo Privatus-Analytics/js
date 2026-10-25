@@ -1,0 +1,10 @@
+{
+  "name": "privatus-next-conformance-example",
+  "private": true,
+  "description": "The conformance example app for @privatus-analytics/next. The Dockerfile installs the package from this repo's source.",
+  "dependencies": {
+    "next": "^16.4.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
+  prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
+  Before, it printed nothing. With `queueStub` off it still prints nothing.
+- README: the privacy section has a paragraph you can paste into your privacy policy.
+
 ## 1.0.0 - 2026-10-25
 
 - Initial release of `gatsby-plugin-privatus`.

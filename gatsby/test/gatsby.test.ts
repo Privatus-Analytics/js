@@ -2,6 +2,7 @@ import Joi from 'joi'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { createElement, Fragment, type ReactNode } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { QUEUE_STUB } from '@privatus-analytics/html-core'
 import { pluginOptionsSchema } from '../src/gatsby-node.js'
 import { onRenderBody, type PrivatusGatsbyOptions } from '../src/gatsby-ssr.js'
 
@@ -37,6 +38,18 @@ describe('gatsby-plugin-privatus onRenderBody', () => {
     expect(parts[2]).toContain('data-exclude="/admin/*"')
     expect(parts[2]).toContain('data-props="privatusPageProps"')
     expect(parts).toHaveLength(4)
+  })
+})
+
+describe('when the tag is off', () => {
+  it('adds only the queue stub (when it is on), never the tracker or page props', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    expect(render({ siteId: 'pa_GATSBY', queueStub: true, props: { plan: 'pro' } })).toBe(`<script>${QUEUE_STUB}</script>`)
+    expect(render({ siteId: 'pa_GATSBY', props: { plan: 'pro' } })).toBeNull()
+    vi.stubEnv('NODE_ENV', 'production')
+    expect(render({ siteId: 'pa_GATSBY', enabled: false, queueStub: true, nonce: 'n1' })).toBe(`<script nonce="n1">${QUEUE_STUB}</script>`)
+    vi.stubEnv('PRIVATUS_SITE_ID', '')
+    expect(render({ queueStub: true })).toBe(`<script>${QUEUE_STUB}</script>`)
   })
 })
 

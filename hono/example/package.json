@@ -1,0 +1,10 @@
+{
+  "name": "privatus-hono-conformance-example",
+  "private": true,
+  "type": "module",
+  "description": "The conformance example app for @privatus-analytics/hono. The Dockerfile installs the package from this repo's source.",
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "hono": "^4.13.13"
+  }
+}

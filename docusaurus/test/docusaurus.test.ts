@@ -1,5 +1,6 @@
 import type { HtmlTagObject, LoadContext, Plugin } from '@docusaurus/types'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { QUEUE_STUB } from '@privatus-analytics/html-core'
 import privatusPlugin, { headTags, validateOptions } from '../src/index.js'
 
 const context = { siteDir: '/site', baseUrl: '/' } as unknown as LoadContext
@@ -37,6 +38,18 @@ describe('docusaurus-plugin-privatus', () => {
     expect(tags[0]).toEqual({ tagName: 'script', attributes: { nonce: 'n1' }, innerHTML: expect.stringContaining("window.privatus=window.privatus||{q:[]}") })
     expect(tags[1].innerHTML).toBe('window.privatusPageProps=function(){return {"section":"docs"}}')
     expect(tags[2].attributes).toMatchObject({ 'data-props': 'privatusPageProps', 'data-modules': 'engage,auto', 'data-spa': 'history', nonce: 'n1' })
+  })
+
+  it('when off, adds only the queue stub (when it is on), never the tracker or page props', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    expect(privatusPlugin(context, { siteId: 'pa_DOCS', queueStub: true, props: { section: 'docs' } }).injectHtmlTags()).toEqual({
+      headTags: [{ tagName: 'script', attributes: {}, innerHTML: QUEUE_STUB }],
+    })
+    expect(privatusPlugin(context, { siteId: 'pa_DOCS', props: { section: 'docs' } }).injectHtmlTags()).toEqual({})
+    vi.stubEnv('NODE_ENV', 'production')
+    vi.stubEnv('PRIVATUS_SITE_ID', '')
+    expect(headTags({ queueStub: true, nonce: 'n1' })).toEqual([{ tagName: 'script', attributes: { nonce: 'n1' }, innerHTML: QUEUE_STUB }])
+    expect(headTags({ siteId: 'pa_DOCS', enabled: false, queueStub: true })).toEqual([{ tagName: 'script', attributes: {}, innerHTML: QUEUE_STUB }])
   })
 
   it('validateOptions accepts good options and rejects typos', () => {

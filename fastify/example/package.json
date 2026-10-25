@@ -1,0 +1,9 @@
+{
+  "name": "privatus-fastify-conformance-example",
+  "private": true,
+  "type": "module",
+  "description": "The conformance example app for @privatus-analytics/fastify. The Dockerfile installs the package from this repo's source.",
+  "dependencies": {
+    "fastify": "^5.12.7"
+  }
+}

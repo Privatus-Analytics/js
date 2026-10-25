@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
+  prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
+  Before, it printed nothing. With `queueStub` off it still prints nothing.
+- Fixed: `privatusVitePlugin` now adds nothing to `index.html` while the tag is off. With the new stub rule it
+  would have added the stub to development mode builds.
+- README: the privacy section has a paragraph you can paste into your privacy policy.
+
 ## 1.0.0 - 2026-10-25
 
 - Initial release of `vitepress-plugin-privatus`.

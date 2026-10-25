@@ -3,7 +3,7 @@ import { compress } from 'hono/compress'
 import { html } from 'hono/html'
 import { NONCE, secureHeaders } from 'hono/secure-headers'
 import { describe, expect, it, vi } from 'vitest'
-import { clickAttr, clickData, eventAttrs, eventData, privatus, privatusAnalyticsTag, type PrivatusHonoOptions } from '../src/index.js'
+import { QUEUE_STUB, clickAttr, clickData, eventAttrs, eventData, privatus, privatusAnalyticsTag, type PrivatusHonoOptions } from '../src/index.js'
 
 const SNIPPET = '<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_TEST123456"></script>'
 const PAGE = '<html><head><title>Plain</title></head><body>Plain</body></html>'
@@ -25,6 +25,7 @@ function app(options: PrivatusHonoOptions, setup?: (app: Hono) => void): Hono {
     ),
   )
   app.get('/attrs', (c) => c.html(html`<button ${eventAttrs('Say "hi"', { note: '<b>' })}>Hi</button><a ${clickAttr('pricing.cta')}>P</a>`))
+  app.get('/off', (c) => c.html(html`<head>${privatusAnalyticsTag(c, { enabled: false, queueStub: c.req.query('stub') === '1', nonce: c.req.query('nonce') })}</head>`))
   app.get('/plain', (c) => c.html(PAGE))
   app.get('/data', (c) => c.json({ html: '</head>' }))
   app.get('/bare', (c) => c.html('<p>No head here</p>'))
@@ -74,6 +75,29 @@ describe('privatusAnalyticsTag', () => {
     const response = await a.request('/')
     const nonce = /'nonce-([^']+)'/.exec(response.headers.get('content-security-policy') ?? '')![1]
     expect((await response.text()).split(`nonce="${nonce}"`)).toHaveLength(3)
+  })
+})
+
+describe('when the tag is off', () => {
+  it('prints only the queue stub, with the nonce, and does not run the props function', async () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    expect(await (await app({ props }).request('/off?stub=1&nonce=n0nce')).text()).toBe(`<head><script nonce="n0nce">${QUEUE_STUB}</script></head>`)
+    expect(await (await app({ props }).request('/off?stub=1')).text()).toBe(`<head><script>${QUEUE_STUB}</script></head>`)
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('prints nothing with the queue stub off', async () => {
+    expect(await (await app({ props: { plan: 'pro' } }).request('/off?nonce=n0nce')).text()).toBe('<head></head>')
+  })
+
+  it('prints only the queue stub without a site id', async () => {
+    const body = await (await app({ enabled: true, siteId: '', queueStub: true, props: { plan: 'pro' } }).request('/')).text()
+    expect(body).toBe(`<html><head><script>${QUEUE_STUB}</script></head><body></body></html>`)
+  })
+
+  it('auto inject adds nothing, even with the queue stub on', async () => {
+    expect(await (await app({ autoInject: true, queueStub: true }).request('/plain')).text()).toBe(PAGE)
+    expect(await (await app({ autoInject: true, queueStub: true, enabled: false }).request('/plain')).text()).toBe(PAGE)
   })
 })
 

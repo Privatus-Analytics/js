@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import compression from 'compression'
 import express, { type Express } from 'express'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import privatus, { clickAttr, eventAttrs, eventData, type PrivatusExpressOptions } from '../src/index.js'
+import privatus, { QUEUE_STUB, clickAttr, eventAttrs, eventData, type PrivatusExpressOptions } from '../src/index.js'
 
 const SNIPPET = '<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_TEST123456"></script>'
 const PAGE = '<html><head><title>Plain</title></head><body>Plain</body></html>'
@@ -25,6 +25,10 @@ function app(options: PrivatusExpressOptions, setup?: (app: Express) => void): E
   app.get('/data', (_req, res) => res.json({ html: '</head>' }))
   app.get('/bare', (_req, res) => res.send('<p>No head here</p>'))
   app.get('/features', (_req, res) => res.render('features'))
+  app.get('/off', (req, res) => {
+    res.locals.cspNonce = req.query.nonce as string | undefined
+    res.send(`<head>${res.locals.privatusAnalyticsTag!({ enabled: false, queueStub: req.query.stub === '1' })}</head>`)
+  })
   app.get('/nonce', (_req, res) => {
     res.locals.cspNonce = 'n0nce'
     res.send(PAGE)
@@ -76,6 +80,31 @@ describe('res.locals helpers', () => {
     const { body } = await get(app({ enabled: true, props: (req) => ({ plan: String(req.query.plan) }) }), '/?plan=pro')
     expect(body).toContain('window.privatusPageProps=function(){return {"plan":"pro"}}')
     expect(body).toContain('data-props="privatusPageProps"')
+  })
+})
+
+describe('when the tag is off', () => {
+  it('prints only the queue stub, with the nonce, and does not run the props function', async () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    expect((await get(app({ props }), '/off?stub=1&nonce=n0nce')).body).toBe(`<head><script nonce="n0nce">${QUEUE_STUB}</script></head>`)
+    expect((await get(app({ props }), '/off?stub=1')).body).toBe(`<head><script>${QUEUE_STUB}</script></head>`)
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('prints nothing with the queue stub off', async () => {
+    expect((await get(app({ props: { plan: 'pro' } }), '/off?nonce=n0nce')).body).toBe('<head></head>')
+  })
+
+  it('prints only the queue stub without a site id', async () => {
+    const { body } = await get(app({ enabled: true, siteId: '', queueStub: true, props: { plan: 'pro' } }), '/')
+    expect(body).toContain(`<script>${QUEUE_STUB}</script>`)
+    expect(body).not.toContain('pa.js')
+    expect(body).not.toContain('privatusPageProps')
+  })
+
+  it('auto inject adds nothing, even with the queue stub on', async () => {
+    expect((await get(app({ autoInject: true, queueStub: true }), '/plain')).body).toBe(PAGE)
+    expect((await get(app({ autoInject: true, queueStub: true, enabled: false }), '/plain')).body).toBe(PAGE)
   })
 })
 

@@ -61,17 +61,20 @@ export function tagInput<Ctx>(options: BaseOptions<Ctx>, context: Ctx, overrides
   return input
 }
 
-/** The tag HTML for one request or page, or ''. */
+/** The tag HTML for one request or page. When off: only the queue stub (when it is on), else ''. */
 export function contextTag<Ctx>(options: BaseOptions<Ctx>, context: Ctx, overrides: TagOverrides | null | undefined, runtime: Runtime): string {
   return renderTag(tagInput(options, context, overrides, runtime))
 }
 
-/** The script elements for one request or page, or []. */
+/** The script elements for one request or page. When off: only the queue stub (when it is on), else []. */
 export function contextElements<Ctx>(options: BaseOptions<Ctx>, context: Ctx, overrides: TagOverrides | null | undefined, runtime: Runtime): ScriptElement[] {
   return tagElements(tagInput(options, context, overrides, runtime))
 }
 
-/** Whether the tag would print (a site id and on), without calling the props function. */
+/**
+ * Whether the tracker tag would print (a site id and on), without calling the props function.
+ * A tag that is off but prints only the queue stub counts as false, so auto inject adds nothing.
+ */
 export function willPrint<Ctx>(options: BaseOptions<Ctx>, runtime: Runtime, overrides?: TagOverrides | null): boolean {
   const input = tagInput(options, undefined as Ctx, overrides, runtime)
   return input.enabled && resolveSiteId(input.siteId, 'env' in input ? input.env : defaultEnv()) !== undefined

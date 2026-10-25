@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import Eleventy from '@11ty/eleventy'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import privatus, { privatusPlugin, type PrivatusEleventyOptions } from '../src/index.js'
+import privatus, { QUEUE_STUB, privatusPlugin, type PrivatusEleventyOptions } from '../src/index.js'
 
 const SITE = fileURLToPath(new URL('./site', import.meta.url))
 const SNIPPET = '<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_TEST123456"></script>'
@@ -107,6 +107,30 @@ describe('run mode', () => {
     vi.stubEnv('ELEVENTY_RUN_MODE', 'build')
     expect(config.transforms[0].call(page, '<head></head>')).toBe(`<head>${SNIPPET}\n</head>`)
     expect(config.shortcodes.privatusAnalyticsTag.call(page)).toBe(SNIPPET)
+  })
+
+  it('when off, the shortcode prints only the queue stub (when on) and the transform adds nothing', () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    const config = fakeConfig()
+    privatusPlugin(config, { siteId: 'pa_TEST123456', queueStub: true, props })
+    const page = { page: { outputPath: '_site/index.html', url: '/' } }
+    vi.stubEnv('ELEVENTY_RUN_MODE', 'serve')
+    expect(config.shortcodes.privatusAnalyticsTag.call(page)).toBe(`<script>${QUEUE_STUB}</script>`)
+    expect(config.shortcodes.privatusAnalyticsTag.call(page, { queueStub: false })).toBe('')
+    expect(config.transforms[0].call(page, '<head></head>')).toBe('<head></head>')
+    vi.stubEnv('ELEVENTY_RUN_MODE', 'build')
+    expect(config.shortcodes.privatusAnalyticsTag.call(page, { enabled: false, nonce: 'abc' })).toBe(`<script nonce="abc">${QUEUE_STUB}</script>`)
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('without a site id, the shortcode prints only the queue stub and the transform adds nothing', () => {
+    vi.stubEnv('PRIVATUS_SITE_ID', '')
+    vi.stubEnv('ELEVENTY_RUN_MODE', 'build')
+    const config = fakeConfig()
+    privatusPlugin(config, { queueStub: true, props: { plan: 'pro' } })
+    const page = { page: { outputPath: '_site/index.html', url: '/' } }
+    expect(config.shortcodes.privatusAnalyticsTag.call(page)).toBe(`<script>${QUEUE_STUB}</script>`)
+    expect(config.transforms[0].call(page, '<head></head>')).toBe('<head></head>')
   })
 
   it('warns about a bad click name outside a build', () => {

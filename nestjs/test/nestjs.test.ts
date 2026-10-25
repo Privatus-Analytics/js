@@ -5,7 +5,7 @@ import { Controller, Get, Header, Inject, Module, Render, Req, Res, type INestAp
 import { NestFactory } from '@nestjs/core'
 import type { NestExpressApplication } from '@nestjs/platform-express'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { PrivatusMiddleware, PrivatusModule, PrivatusService, type PrivatusNestOptions } from '../src/index.js'
+import { PrivatusMiddleware, PrivatusModule, PrivatusService, QUEUE_STUB, type PrivatusNestOptions } from '../src/index.js'
 
 const SNIPPET = '<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_TEST123456"></script>'
 const PAGE = '<html><head><title>Plain</title></head><body>Plain</body></html>'
@@ -41,6 +41,12 @@ class PagesController {
   @Get('data')
   data(): { html: string } {
     return { html: '</head>' }
+  }
+
+  @Get('off')
+  off(@Req() req: { query: Record<string, string> }, @Res() res: { locals: Record<string, any>; type(t: string): { send(b: string): void } }): void {
+    if (req.query.nonce) res.locals.cspNonce = req.query.nonce
+    res.type('html').send(`<head>${this.privatus.tag(req as never, res as never, { enabled: false, queueStub: req.query.stub === '1' })}</head>`)
   }
 
   @Get('service')
@@ -121,5 +127,32 @@ describe('PrivatusModule with the Express platform', () => {
     const nest = await NestFactory.createApplicationContext(AsyncModule, { logger: false })
     expect(nest.get(PrivatusService).tag({ headers: {} })).toContain('data-site="pa_ASYNC"')
     await nest.close()
+  })
+})
+
+describe('when the tag is off', () => {
+  it('prints only the queue stub, with the nonce, and does not run the props function', async () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    const url = await start({ props })
+    expect((await get(`${url}/off?stub=1&nonce=n0nce`)).body).toBe(`<head><script nonce="n0nce">${QUEUE_STUB}</script></head>`)
+    expect((await get(`${url}/off?stub=1`)).body).toBe(`<head><script>${QUEUE_STUB}</script></head>`)
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('prints nothing with the queue stub off', async () => {
+    const url = await start({ props: { plan: 'pro' } })
+    expect((await get(`${url}/off?nonce=n0nce`)).body).toBe('<head></head>')
+  })
+
+  it('prints only the queue stub without a site id', async () => {
+    const url = await start({ enabled: true, siteId: '', queueStub: true, props: { plan: 'pro' } })
+    const { body } = await get(url)
+    expect(body).toContain(`<script>${QUEUE_STUB}</script>`)
+    expect(body).not.toContain('pa.js')
+  })
+
+  it('auto inject adds nothing, even with the queue stub on', async () => {
+    const url = await start({ autoInject: true, queueStub: true })
+    expect((await get(`${url}/plain`)).body).toBe(PAGE)
   })
 })

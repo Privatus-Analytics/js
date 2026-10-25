@@ -1,0 +1,10 @@
+{
+  "name": "privatus-express-conformance-example",
+  "private": true,
+  "type": "module",
+  "description": "The conformance example app for @privatus-analytics/express. The Dockerfile installs the package from this repo's source.",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.3.0"
+  }
+}
