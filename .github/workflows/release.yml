@@ -46,4 +46,9 @@ jobs:
       - run: npm test -w ./${{ steps.pkg.outputs.folder }}
       # Provenance links the package to this workflow run. Trusted publishing adds it
       # on its own; the flag makes it fail loudly if it cannot.
+      # npm trusted publishing can only be set on a package that already exists, so a
+      # package's first publish uses the NPM_TOKEN secret in the "release" environment.
+      # Later publishes use trusted publishing; NPM_TOKEN can then be deleted.
       - run: npm publish -w ./${{ steps.pkg.outputs.folder }} --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
