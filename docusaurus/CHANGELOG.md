@@ -5,6 +5,8 @@
 - Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
   Before, it printed nothing. With `queueStub` off it still prints nothing.
+- Changed: while the tag is off, the plugin adds no second queue stub when the site config's own `headTags`
+  already hold one (for example from `headTags()`). Tests now check that every page gets exactly one stub.
 - README: the privacy section has a paragraph you can paste into your privacy policy.
 - README: `docusaurus build` minifies the inline scripts; how to keep the exact text.
 - `example/`: a tiny site for the Privatus conformance tests, built with the plugin and served by nginx.

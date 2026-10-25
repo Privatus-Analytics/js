@@ -5,11 +5,12 @@
  *   plugins: [['docusaurus-plugin-privatus', { siteId: 'pa_XXXX' }]]
  *
  * Adds the tracking script to the <head> of every page in `docusaurus build`.
- * `docusaurus start` gets nothing, so your own visits while writing are not counted.
+ * `docusaurus start` gets no tracker, so your own visits while writing are not counted
+ * (only the queue stub, when queueStub is on).
  *
  * Only adds HTML tags. It never sends requests, sets no cookies and reads no visitor data.
  */
-import { contextElements, SPA_MODES, type BaseOptions, type Props } from '@privatus-analytics/html-core'
+import { contextElements, QUEUE_STUB, SPA_MODES, willPrint, type BaseOptions, type Props } from '@privatus-analytics/html-core'
 
 export type { Props, PropValue, SpaMode } from '@privatus-analytics/html-core'
 
@@ -34,11 +35,19 @@ export interface PrivatusDocusaurusPlugin {
   injectHtmlTags(): { headTags?: HtmlTag[] }
 }
 
-/** The head tags for these options, or [] when the tag is off. */
-export function headTags(options: PrivatusDocusaurusOptions = {}): HtmlTag[] {
+function runtime(): { defaultEnabled: boolean } {
   // `docusaurus build` sets NODE_ENV to production. `docusaurus start` sets development.
-  const runtime = { defaultEnabled: process.env.NODE_ENV === 'production' }
-  return contextElements(options, undefined, null, runtime).map((element) => {
+  return { defaultEnabled: process.env.NODE_ENV === 'production' }
+}
+
+/** Whether head tags (for example the site config's headTags) already hold the queue stub. */
+function hasStub(tags: unknown): boolean {
+  return Array.isArray(tags) && tags.some((tag) => tag && typeof tag === 'object' && (tag as HtmlTag).tagName === 'script' && (tag as HtmlTag).innerHTML === QUEUE_STUB)
+}
+
+/** The head tags for these options. When the tag is off: only the queue stub (when it is on), else []. */
+export function headTags(options: PrivatusDocusaurusOptions = {}): HtmlTag[] {
+  return contextElements(options, undefined, null, runtime()).map((element) => {
     const tag: HtmlTag = { tagName: 'script', attributes: { ...element.attributes } }
     if (element.code !== undefined) tag.innerHTML = element.code
     return tag
@@ -49,10 +58,14 @@ export function headTags(options: PrivatusDocusaurusOptions = {}): HtmlTag[] {
  * The Docusaurus plugin. The tag prints only with a site id (or PRIVATUS_SITE_ID) and
  * only in production builds, unless `enabled` says otherwise.
  */
-export default function privatusPlugin(_context: unknown, options: PrivatusDocusaurusOptions = {}): PrivatusDocusaurusPlugin {
+export default function privatusPlugin(context: unknown, options: PrivatusDocusaurusOptions = {}): PrivatusDocusaurusPlugin {
   return {
     name: 'docusaurus-plugin-privatus',
     injectHtmlTags() {
+      // When the tag is off this is the queue stub alone (queueStub on) or nothing. A site
+      // whose own headTags already hold the stub (from headTags()) does not get a second one.
+      const siteHeadTags = (context as { siteConfig?: { headTags?: unknown } } | null)?.siteConfig?.headTags
+      if (!willPrint(options, runtime()) && hasStub(siteHeadTags)) return {}
       const tags = headTags(options)
       return tags.length ? { headTags: tags } : {}
     },

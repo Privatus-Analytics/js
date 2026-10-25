@@ -80,7 +80,7 @@ return.
 
 For a Vite app with an `index.html` (not VitePress), add the Vite plugin. In
 `vite build` it puts the tag before `</head>` in your HTML. The dev server
-never gets it.
+never gets the tag (only the queue stub, when you turn it on, see below).
 
 ```js
 // vite.config.js
@@ -249,12 +249,17 @@ If your code may run before the tracker has loaded, switch on the queue stub
 with `queueStub: true`. It prints a tiny script before the tracker that keeps
 your calls in a list and sends them once the tracker is ready.
 
-The stub prints even where the tag is off (in development, with
-`enabled: false` or without a site id). Then only the stub prints: no tracker
-and no page props. So you can always call `privatus.track(...)`. In
-development the calls just wait in the queue and are never sent.
-`privatusVitePlugin` adds nothing while the tag is off. `privatusHead` and
-`privatusTransformHead` print the stub.
+The stub is added even when the tag is off (in development, with
+`enabled: false` or without a site id), so `privatus.track(...)` calls never
+fail in development: they just wait in the queue and are never sent. Then only
+the stub is added: no tracker and no page props, and your props function is
+not called. All three helpers do this. `privatusVitePlugin` adds it in the
+Vite dev server too, and `privatusHead` in `vitepress dev`.
+(`privatusTransformHead` only runs in `vitepress build`, so it cannot add it
+in `vitepress dev`. Use `privatusHead` for that.) A page never gets two stubs:
+`privatusTransformHead` skips it when `privatusHead` already added one, and
+`privatusVitePlugin` skips it when your `index.html` already has one. With
+`queueStub: false` nothing is added while the tag is off.
 
 ### See the results
 

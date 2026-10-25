@@ -5,8 +5,12 @@
 - Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
   Before, it printed nothing. With `queueStub` off it still prints nothing.
-- Fixed: `privatusVitePlugin` now adds nothing to `index.html` while the tag is off. With the new stub rule it
-  would have added the stub to development mode builds.
+- Changed: with `queueStub` on, `privatusVitePlugin` now adds the queue stub alone to `index.html` while the
+  tag is off (a development build, `enabled: false` or no site id), and it now runs in the Vite dev server
+  too, where it only ever adds the stub (never the tracker). The props function is not called then. A page
+  that already has the stub does not get a second one. With `queueStub` off it adds nothing, as before.
+- Changed: `privatusTransformHead` adds no second queue stub to a page whose head already has one from
+  `privatusHead` while the tag is off.
 - Fixed: VitePress minified the inline head scripts from `privatusHead` and `privatusTransformHead`, which
   changed the official queue stub and undid the page props escaping (found by the conformance tests). They
   now carry `type="text/ecmascript"`, so VitePress leaves them exactly as printed.

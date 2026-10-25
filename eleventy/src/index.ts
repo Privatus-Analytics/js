@@ -19,6 +19,7 @@ import {
   willPrint,
   eventAttrs,
   injectTag,
+  QUEUE_STUB,
   type BaseOptions,
   type Props,
   type Runtime,
@@ -53,6 +54,12 @@ export interface EleventyConfigLike {
   addTransform(name: string, fn: (this: { page?: EleventyPage; outputPath?: string | false }, content: string, outputPath?: string | false) => string): unknown
 }
 
+/**
+ * A real queue stub script, with or without a nonce. A stub shown as text in a code
+ * block has its "<script" escaped, so it does not match.
+ */
+const STUB_SCRIPT = new RegExp(`<script\\b[^>]*>${QUEUE_STUB.slice(0, 40).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`)
+
 function runtime(): Runtime {
   // Eleventy sets ELEVENTY_RUN_MODE to build, serve or watch. Only a build counts.
   return { defaultEnabled: process.env.ELEVENTY_RUN_MODE === 'build' }
@@ -76,6 +83,7 @@ function propsFrom(args: unknown[]): Props {
  * - the `privatusEventAttrs` shortcode (custom event attributes for a button, link or form),
  * - the `privatusClickAttr` shortcode (a click map name),
  * - a transform that puts the tag in the <head> of every page (turn off with autoInject: false).
+ *   When the tag is off it adds only the queue stub (with queueStub), or nothing.
  *
  * The tag prints only with a site id (or PRIVATUS_SITE_ID) and only in a build,
  * not with --serve or --watch, unless `enabled` says otherwise.
@@ -99,8 +107,11 @@ export function privatusPlugin(eleventyConfig: EleventyConfigLike, options: Priv
     eleventyConfig.addTransform('privatus-analytics', function (content: string, legacyOutputPath?: string | false) {
       const outputPath = this.page?.outputPath ?? this.outputPath ?? legacyOutputPath
       if (typeof content !== 'string' || typeof outputPath !== 'string' || !outputPath.endsWith('.html')) return content
-      // A tag that is off adds nothing here, not even the queue stub. The shortcode prints that.
-      if (!canInjectInto(content) || !willPrint(base, runtime())) return content
+      if (!canInjectInto(content)) return content
+      // When the tag is off, tag() is the queue stub alone (queueStub on) or '', and the
+      // props function is not called. A page that already prints the stub (the shortcode
+      // in its layout) is left alone, so it never gets two.
+      if (!willPrint(base, runtime()) && STUB_SCRIPT.test(content)) return content
       return injectTag(content, tag(this.page ?? { outputPath }))
     })
   }

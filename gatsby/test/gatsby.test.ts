@@ -5,7 +5,7 @@ import { createElement, Fragment, type ReactNode } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { QUEUE_STUB } from '@privatus-analytics/html-core'
 import { pluginOptionsSchema } from '../src/gatsby-node.js'
-import { onRenderBody, type PrivatusGatsbyOptions } from '../src/gatsby-ssr.js'
+import { headComponents, onRenderBody, type PrivatusGatsbyOptions } from '../src/gatsby-ssr.js'
 
 afterEach(() => vi.unstubAllEnvs())
 
@@ -51,6 +51,40 @@ describe('when the tag is off', () => {
     expect(render({ siteId: 'pa_GATSBY', enabled: false, queueStub: true, nonce: 'n1' })).toBe(`<script nonce="n1">${QUEUE_STUB}</script>`)
     vi.stubEnv('PRIVATUS_SITE_ID', '')
     expect(render({ queueStub: true })).toBe(`<script>${QUEUE_STUB}</script>`)
+  })
+})
+
+describe('when the tag is off, on every page', () => {
+  const count = (html: string, part: string) => html.split(part).length - 1
+
+  it('onRenderBody adds exactly one stub and nothing else, with or without a nonce', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    for (const pathname of ['/', '/docs/', '/404/']) {
+      let head: ReactNode[] = []
+      onRenderBody({ setHeadComponents: (c) => (head = c), pathname }, { plugins: [], siteId: 'pa_GATSBY', queueStub: true, props: { plan: 'pro' } })
+      const html = renderToStaticMarkup(createElement(Fragment, null, ...head))
+      expect(count(html, 'window.privatus=window.privatus'), pathname).toBe(1)
+      expect(html, pathname).not.toContain('pa.js')
+      expect(html, pathname).not.toContain('privatusPageProps')
+    }
+  })
+
+  it('onRenderBody adds nothing with the queue stub off', () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    expect(render({ siteId: 'pa_GATSBY', enabled: false, props: { plan: 'pro' } })).toBeNull()
+  })
+
+  it('a page that also uses headComponents (the README swap) still gets one stub', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    const options = { siteId: 'pa_GATSBY', queueStub: true }
+    let head: ReactNode[] = []
+    onRenderBody({ setHeadComponents: (c) => (head = [...head, ...c]), pathname: '/docs/' }, { plugins: [], ...options })
+    // The README's onPreRenderHTML: drop the plugin's scripts, add headComponents(...) instead.
+    const ours = (c: any) => typeof c?.key === 'string' && c.key.startsWith('privatus-analytics-')
+    const swapped = [...head.filter((c) => !ours(c)), ...headComponents({ ...options, props: { site: 'docs' } })]
+    const html = renderToStaticMarkup(createElement(Fragment, null, ...swapped))
+    expect(count(html, 'window.privatus=window.privatus')).toBe(1)
+    expect(html).not.toContain('pa.js')
   })
 })
 

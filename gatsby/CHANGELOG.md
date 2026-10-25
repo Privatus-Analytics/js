@@ -4,7 +4,9 @@
 
 - Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
-  Before, it printed nothing. With `queueStub` off it still prints nothing.
+  Before, it printed nothing. With `queueStub` off it still prints nothing. `onRenderBody` adds the stub
+  alone to every page in `gatsby develop`; tests now check each page gets exactly one, also with the
+  README's `headComponents` swap.
 - Fixed: in a real `gatsby build` the plugin added nothing (found by the conformance tests). Gatsby finds a
   plugin's APIs by reading `gatsby-ssr.js`, and the file only re-exported the built code, so Gatsby never saw
   `onRenderBody`. `gatsby-ssr.js` and `gatsby-node.js` now name each API.

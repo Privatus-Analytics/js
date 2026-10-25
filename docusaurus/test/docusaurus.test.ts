@@ -52,6 +52,31 @@ describe('docusaurus-plugin-privatus', () => {
     expect(headTags({ siteId: 'pa_DOCS', enabled: false, queueStub: true })).toEqual([{ tagName: 'script', attributes: {}, innerHTML: QUEUE_STUB }])
   })
 
+  it('when off with the queue stub, every page gets exactly one stub and nothing else', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    const result = privatusPlugin(context, { siteId: 'pa_DOCS', queueStub: true, props: { section: 'docs' } }).injectHtmlTags() as { headTags: HtmlTagObject[] }
+    expect(result.headTags).toHaveLength(1)
+    expect(result.headTags.filter((tag) => tag.innerHTML === QUEUE_STUB)).toHaveLength(1)
+    expect(JSON.stringify(result)).not.toContain('pa.js')
+    expect(JSON.stringify(result)).not.toContain('privatusPageProps')
+  })
+
+  it('when off, adds no second stub when the site config head tags already have one from headTags()', () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    const options = { siteId: 'pa_DOCS', queueStub: true }
+    const withStub = { ...context, siteConfig: { headTags: headTags(options) } } as unknown as LoadContext
+    expect(privatusPlugin(withStub, options).injectHtmlTags()).toEqual({})
+    const withNonce = { ...context, siteConfig: { headTags: headTags({ ...options, nonce: 'n1' }) } } as unknown as LoadContext
+    expect(privatusPlugin(withNonce, options).injectHtmlTags()).toEqual({})
+    const other = { ...context, siteConfig: { headTags: [{ tagName: 'meta', attributes: { name: 'x' } }] } } as unknown as LoadContext
+    expect(privatusPlugin(other, options).injectHtmlTags()).toEqual({ headTags: [{ tagName: 'script', attributes: {}, innerHTML: QUEUE_STUB }] })
+  })
+
+  it('when off without the queue stub, adds nothing', () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    expect(privatusPlugin(context, { siteId: 'pa_DOCS', enabled: false, props: { section: 'docs' } }).injectHtmlTags()).toEqual({})
+  })
+
   it('validateOptions accepts good options and rejects typos', () => {
     expect(validateOptions({ options: { siteId: 'pa_DOCS', id: 'default', modules: ['engage'] } })).toEqual({ siteId: 'pa_DOCS', id: 'default', modules: ['engage'] })
     expect(() => validateOptions({ options: { siteID: 'pa_DOCS' } })).toThrow('unknown option "siteID"')

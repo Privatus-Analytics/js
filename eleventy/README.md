@@ -66,8 +66,8 @@ In a build it prints:
 The tag prints nothing when there is no site id, and only in a real build.
 Eleventy sets `ELEVENTY_RUN_MODE` to `build`, `serve` or `watch`. Only `build`
 gets the tag, so `npx @11ty/eleventy --serve` while you write never counts your
-own visits. The one exception is the queue stub: when you turn it on, the
-shortcode still prints it (see below).
+own visits. The one exception is the queue stub: when you turn it on, it is
+still added (see below).
 
 ### Or place it yourself
 
@@ -272,12 +272,14 @@ If your code may run before the tracker has loaded, switch on the queue stub
 with `queueStub: true`. It prints a tiny script before the tracker that keeps
 your calls in a list and sends them once the tracker is ready.
 
-The stub prints even where the tag is off (in development, with
-`enabled: false` or without a site id). Then only the stub prints: no tracker
-and no page props. So you can always call `privatus.track(...)`. In
-development the calls just wait in the queue and are never sent.
-Auto inject adds nothing while the tag is off, so use the
-`privatusAnalyticsTag` shortcode in your layout if you want the stub there.
+The stub is added even when the tag is off (in development with `--serve`,
+with `enabled: false` or without a site id), so `privatus.track(...)` calls
+never fail in development: they just wait in the queue and are never sent.
+Then only the stub is added: no tracker and no page props, and your props
+function is not called. Auto inject adds it to every page, and so does the
+`privatusAnalyticsTag` shortcode. A page whose layout uses the shortcode still
+gets the stub only once. With `queueStub: false` nothing is added while the
+tag is off.
 
 ### See the results
 

@@ -16,6 +16,7 @@ import {
   willPrint,
   injectTag,
   canInjectInto,
+  QUEUE_STUB,
   type BaseOptions,
   type Props,
   type ScriptElement,
@@ -59,6 +60,17 @@ export type PrivatusViteOptions = BaseOptions<IndexHtmlContext>
  */
 const INLINE_TYPE = 'text/ecmascript'
 
+/**
+ * A real queue stub script in index.html, with or without a nonce. A stub shown as text
+ * in a code block has its "<script" escaped, so it does not match.
+ */
+const STUB_SCRIPT = new RegExp(`<script\\b[^>]*>${QUEUE_STUB.slice(0, 40).replace(/[.*+?^$()|[\]\\{}]/g, '\\$&')}`)
+
+/** Whether VitePress head entries already hold the queue stub (for example from privatusHead). */
+function headHasStub(head: unknown): boolean {
+  return Array.isArray(head) && head.some((entry) => Array.isArray(entry) && entry[0] === 'script' && entry[2] === QUEUE_STUB)
+}
+
 function toHead(element: ScriptElement): HeadConfig {
   const attrs: Record<string, string> = {}
   if (element.code !== undefined) attrs.type = INLINE_TYPE
@@ -92,20 +104,28 @@ export function privatusHead(options: PrivatusHeadOptions = {}): HeadConfig[] {
  * Use this or privatusHead, not both.
  */
 export function privatusTransformHead(options: PrivatusTransformHeadOptions = {}): (context: TransformHeadContext) => HeadConfig[] {
-  return (context) => contextElements(options, context, null, { defaultEnabled: true }).map(toHead)
+  return (context) => {
+    const runtime = { defaultEnabled: true }
+    // When the tag is off this is the queue stub alone (queueStub on) or nothing, and the
+    // props function is not called. A page whose head already has the stub (from
+    // privatusHead) does not get a second one.
+    if (!willPrint(options, runtime) && headHasStub(context.head)) return []
+    return contextElements(options, context, null, runtime).map(toHead)
+  }
 }
 
 /** The parts of a Vite plugin this returns, written out so the package needs no Vite types. */
 export interface PrivatusVitePlugin {
   name: string
-  apply: 'build'
-  configResolved(config: { isProduction: boolean }): void
+  configResolved(config: { isProduction: boolean; command?: 'build' | 'serve' }): void
   transformIndexHtml: { order: 'post'; handler(html: string, context: IndexHtmlContext): string }
 }
 
 /**
  * A Vite plugin for plain Vite apps: puts the tag before </head> in index.html in
- * production builds (`vite build`). `vite` (the dev server) never gets it.
+ * production builds (`vite build`). `vite` (the dev server) never gets the tag. When the
+ * tag is off (the dev server, a development build, `enabled: false` or no site id) it adds
+ * only the queue stub, when `queueStub` is on, so privatus.track calls never fail.
  *
  *   export default defineConfig({ plugins: [privatusVitePlugin({ siteId: 'pa_XXXX' })] })
  *
@@ -114,19 +134,24 @@ export interface PrivatusVitePlugin {
  */
 export function privatusVitePlugin(options: PrivatusViteOptions = {}): PrivatusVitePlugin {
   let isProduction = true
+  let serve = false
   return {
     name: 'vitepress-plugin-privatus',
-    apply: 'build',
     configResolved(config) {
       isProduction = config.isProduction
+      serve = config.command === 'serve'
     },
     transformIndexHtml: {
       order: 'post',
       handler(html, context) {
         const runtime = { defaultEnabled: isProduction }
-        // A tag that is off adds nothing here, not even the queue stub.
-        if (!canInjectInto(html) || !willPrint(options, runtime)) return html
-        return injectTag(html, contextTag(options, context, null, runtime))
+        // The dev server is always off, whatever `enabled` says.
+        const overrides = serve ? { enabled: false } : null
+        if (!canInjectInto(html)) return html
+        // Off: the queue stub alone (queueStub on) or '', and props are not worked out.
+        // A page that already has the stub does not get a second one.
+        if (!willPrint(options, runtime, overrides) && STUB_SCRIPT.test(html)) return html
+        return injectTag(html, contextTag(options, context, overrides, runtime))
       },
     },
   }

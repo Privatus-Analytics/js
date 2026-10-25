@@ -5,8 +5,10 @@
 - Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
   Before, it printed nothing. With `queueStub` off it still prints nothing.
-- Fixed: the auto inject transform now adds nothing while the tag is off. With the new stub rule it would
-  have added the stub to every page in `--serve`, and a second one next to the shortcode.
+- Changed: with `queueStub` on, auto inject now adds the queue stub alone to every page while the tag is
+  off (for example with `--serve`), so `privatus.track(...)` calls never fail in development. No tracker, no
+  page props script, and the props function is not called. A page whose layout already prints the stub with
+  the `privatusAnalyticsTag` shortcode does not get a second one. With `queueStub` off it adds nothing.
 - README: the privacy section has a paragraph you can paste into your privacy policy.
 - `example/`: a tiny site for the Privatus conformance tests, built with the plugin and served by nginx.
 

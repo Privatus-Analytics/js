@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { cpSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,7 +18,12 @@ afterEach(() => {
 async function build(options: PrivatusEleventyOptions): Promise<(path: string) => string> {
   const output = mkdtempSync(join(tmpdir(), 'privatus-eleventy-'))
   outputs.push(output)
-  const eleventy = new Eleventy(SITE, output, {
+  // A fresh copy of the site for each build: Eleventy keeps compiled layouts between
+  // builds in one process, keyed by path, so a reused folder could keep an old shortcode.
+  const input = mkdtempSync(join(tmpdir(), 'privatus-eleventy-src-'))
+  outputs.push(input)
+  cpSync(SITE, input, { recursive: true })
+  const eleventy = new Eleventy(input, output, {
     quietMode: true,
     config(eleventyConfig: { addPlugin: (plugin: unknown, options: unknown) => void }) {
       eleventyConfig.addPlugin(privatus, { siteId: 'pa_TEST123456', ...options })
@@ -73,6 +78,47 @@ describe('eleventy-plugin-privatus in a real Eleventy build', () => {
     expect(read('index.html')).not.toContain('pa.js')
   })
 
+  const PAGES = ['index.html', 'liquid/index.html', 'docs/index.html']
+  const count = (html: string, part: string) => html.split(part).length - 1
+
+  it('when off with the queue stub, every page gets exactly one stub and nothing else', async () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    const read = await build({ enabled: false, queueStub: true, props })
+    for (const path of PAGES) {
+      const html = read(path)
+      expect(count(html, `<script>${QUEUE_STUB}</script>`), path).toBe(1)
+      expect(count(html, 'window.privatus=window.privatus'), path).toBe(1)
+      expect(html, path).not.toContain('/js/pa.js')
+      expect(html, path).not.toContain('privatusPageProps')
+      expect(html, path).not.toContain('data-props')
+    }
+    expect(read('index.html')).toContain(`<script>${QUEUE_STUB}</script>\n</head>`)
+    expect(props).not.toHaveBeenCalled()
+  })
+
+  it('a page whose layout also uses the shortcode still gets one stub when off', async () => {
+    const read = await build({ enabled: false, queueStub: true })
+    expect(count(read('docs/index.html'), 'window.privatus=window.privatus')).toBe(1)
+  })
+
+  it('without a site id and with the queue stub, every page gets only the stub', async () => {
+    const read = await build({ siteId: null, queueStub: true })
+    for (const path of PAGES) {
+      expect(count(read(path), 'window.privatus=window.privatus'), path).toBe(1)
+      expect(read(path), path).not.toContain('/js/pa.js')
+    }
+  })
+
+  it('when off without the queue stub, no page gets anything', async () => {
+    const props = vi.fn(() => ({ plan: 'pro' }))
+    const read = await build({ enabled: false, props })
+    for (const path of PAGES) {
+      expect(read(path), path).not.toContain('window.privatus')
+      expect(read(path), path).not.toContain('/js/pa.js')
+    }
+    expect(props).not.toHaveBeenCalled()
+  })
+
   it('autoInject: false leaves pages to the shortcode', async () => {
     const read = await build({ autoInject: false })
     expect(read('index.html')).not.toContain('pa.js')
@@ -109,7 +155,7 @@ describe('run mode', () => {
     expect(config.shortcodes.privatusAnalyticsTag.call(page)).toBe(SNIPPET)
   })
 
-  it('when off, the shortcode prints only the queue stub (when on) and the transform adds nothing', () => {
+  it('when off, the shortcode and the transform print only the queue stub (when on)', () => {
     const props = vi.fn(() => ({ plan: 'pro' }))
     const config = fakeConfig()
     privatusPlugin(config, { siteId: 'pa_TEST123456', queueStub: true, props })
@@ -117,7 +163,13 @@ describe('run mode', () => {
     vi.stubEnv('ELEVENTY_RUN_MODE', 'serve')
     expect(config.shortcodes.privatusAnalyticsTag.call(page)).toBe(`<script>${QUEUE_STUB}</script>`)
     expect(config.shortcodes.privatusAnalyticsTag.call(page, { queueStub: false })).toBe('')
-    expect(config.transforms[0].call(page, '<head></head>')).toBe('<head></head>')
+    expect(config.transforms[0].call(page, '<head></head>')).toBe(`<head><script>${QUEUE_STUB}</script>\n</head>`)
+    // A page that already prints the stub (from the shortcode, with or without a nonce) is left alone.
+    const printed = `<head><script nonce="n1">${QUEUE_STUB}</script></head>`
+    expect(config.transforms[0].call(page, printed)).toBe(printed)
+    // A stub only shown as text in a code block does not count.
+    const shown = `<head></head><pre>&lt;script&gt;${QUEUE_STUB}&lt;/script&gt;</pre>`
+    expect(config.transforms[0].call(page, shown)).toContain(`<script>${QUEUE_STUB}</script>\n</head>`)
     vi.stubEnv('ELEVENTY_RUN_MODE', 'build')
     expect(config.shortcodes.privatusAnalyticsTag.call(page, { enabled: false, nonce: 'abc' })).toBe(`<script nonce="abc">${QUEUE_STUB}</script>`)
     expect(props).not.toHaveBeenCalled()
@@ -130,7 +182,14 @@ describe('run mode', () => {
     privatusPlugin(config, { queueStub: true, props: { plan: 'pro' } })
     const page = { page: { outputPath: '_site/index.html', url: '/' } }
     expect(config.shortcodes.privatusAnalyticsTag.call(page)).toBe(`<script>${QUEUE_STUB}</script>`)
-    expect(config.transforms[0].call(page, '<head></head>')).toBe('<head></head>')
+    expect(config.transforms[0].call(page, '<head></head>')).toBe(`<head><script>${QUEUE_STUB}</script>\n</head>`)
+  })
+
+  it('when off without the queue stub, the transform adds nothing', () => {
+    const config = fakeConfig()
+    privatusPlugin(config, { siteId: 'pa_TEST123456' })
+    vi.stubEnv('ELEVENTY_RUN_MODE', 'serve')
+    expect(config.transforms[0].call({ page: { outputPath: '_site/index.html' } }, '<head></head>')).toBe('<head></head>')
   })
 
   it('warns about a bad click name outside a build', () => {

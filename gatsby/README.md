@@ -220,10 +220,13 @@ If your code may run before the tracker has loaded, switch on the queue stub
 with `queueStub: true`. It prints a tiny script before the tracker that keeps
 your calls in a list and sends them once the tracker is ready.
 
-The stub prints even where the tag is off (in development, with
-`enabled: false` or without a site id). Then only the stub prints: no tracker
-and no page props. So you can always call `privatus.track(...)`. In
-development the calls just wait in the queue and are never sent.
+The stub is added to every page even when the tag is off (in development
+with `gatsby develop`, with `enabled: false` or without a site id), so
+`privatus.track(...)` calls never fail in development: they just wait in the
+queue and are never sent. Then only the stub is added: no tracker and no page
+props. If you swap the plugin's scripts with `headComponents` as shown above,
+the page still gets the stub only once. With `queueStub: false` nothing is
+added while the tag is off.
 
 ### See the results
 
