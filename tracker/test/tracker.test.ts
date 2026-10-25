@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  DEFAULT_HOST,
   createClient,
   hasTrackerScript,
   init,
@@ -48,9 +49,13 @@ function loadFakeTracker(ns = 'privatus') {
 }
 
 describe('scriptAttributes', () => {
+  it('loads the hosted script from the tracker host, not the website', () => {
+    expect(DEFAULT_HOST).toBe('https://privatusstats.com')
+  })
+
   it('maps the minimal options', () => {
     expect(scriptAttributes({ site: 'pa_123' })).toEqual({
-      src: 'https://privatusanalytics.com/js/pa.js',
+      src: 'https://privatusstats.com/js/pa.js',
       defer: '',
       'data-site': 'pa_123',
     })
@@ -118,7 +123,7 @@ describe('scriptAttributes', () => {
 
   it('renders an escaped script tag', () => {
     expect(renderScriptTag({ site: 'pa_"x<' })).toBe(
-      '<script src="https://privatusanalytics.com/js/pa.js" defer data-site="pa_&quot;x&lt;"></script>',
+      '<script src="https://privatusstats.com/js/pa.js" defer data-site="pa_&quot;x&lt;"></script>',
     )
   })
 
@@ -136,7 +141,7 @@ describe('init', () => {
     init({ site: 'pa_1', modules: ['engage', 'vitals'] })
     const scripts = document.querySelectorAll('script')
     expect(scripts).toHaveLength(1)
-    expect(scripts[0].getAttribute('src')).toBe('https://privatusanalytics.com/js/pa.js')
+    expect(scripts[0].getAttribute('src')).toBe('https://privatusstats.com/js/pa.js')
     expect(scripts[0].getAttribute('data-site')).toBe('pa_1')
     expect(scripts[0].getAttribute('data-modules')).toBe('engage,vitals')
     expect(scripts[0].defer).toBe(true)

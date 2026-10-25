@@ -5,10 +5,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 // The real tracker, not a stub: these pin how pa.js reports whether a real
 // input happened on the page (the `i` flag), in the source and in the
 // minified file that sites load.
-const ROOT = resolve(__dirname, '../../../..')
+// Copies from the app repo, see fixtures/README.md.
+const FIXTURES = resolve(__dirname, 'fixtures')
 const SCRIPTS = {
-  'tracker/src/pa.js': readFileSync(resolve(ROOT, 'tracker/src/pa.js'), 'utf8'),
-  'public/js/pa.js': readFileSync(resolve(ROOT, 'public/js/pa.js'), 'utf8'),
+  'tracker/src/pa.js': readFileSync(resolve(FIXTURES, 'pa.src.js'), 'utf8'),
+  'public/js/pa.js': readFileSync(resolve(FIXTURES, 'pa.min.js'), 'utf8'),
 }
 let script: keyof typeof SCRIPTS
 
@@ -124,7 +125,8 @@ describe.each(Object.keys(SCRIPTS) as Array<keyof typeof SCRIPTS>)('%s interacti
   it('sends a yes or no, never the input itself', () => {
     loadTracker()
     fire('pointermove')
-    const allowed = ['s', 't', 'u', 'l', 'w', 'r', 'p', 'e', 'sd', 'i']
+    // tz, the browser's time zone name, is sent on every hit since 2026-10-06 (read in memory, never stored).
+    const allowed = ['s', 't', 'u', 'l', 'w', 'r', 'p', 'e', 'sd', 'i', 'tz']
     hits().forEach((hit) => expect(allowed).toEqual(expect.arrayContaining(Object.keys(hit))))
   })
 })

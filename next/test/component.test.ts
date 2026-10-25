@@ -11,7 +11,7 @@ afterEach(() => {
 })
 
 describe('<PrivatusAnalytics />', () => {
-  it('loads pa.js from privatusanalytics.com', async () => {
+  it('loads pa.js from privatusstats.com', async () => {
     let client: ReturnType<typeof usePrivatus> | undefined
     function Probe() {
       client = usePrivatus()
@@ -22,7 +22,7 @@ describe('<PrivatusAnalytics />', () => {
       root.render(createElement('div', null, createElement(PrivatusAnalytics, { site: 'pa_1' }), createElement(Probe)))
     })
     const script = document.querySelector('script[data-site="pa_1"]')!
-    expect(script.getAttribute('src')).toBe('https://privatusanalytics.com/js/pa.js')
+    expect(script.getAttribute('src')).toBe('https://privatusstats.com/js/pa.js')
     expect(script.hasAttribute('data-api')).toBe(false)
     client!.track('x')
     expect((window as any).privatus.q).toEqual([['track', ['x', {}]]])

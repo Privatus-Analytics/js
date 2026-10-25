@@ -3,17 +3,10 @@
 # workspace's own npm scripts. The repo is copied into the container, so nothing is
 # written to your checkout and your local Node does not matter. Usage: ./run-docker.sh
 #
-# Two @privatus-analytics/tracker test files read the real pa.js from the app repo, four folders
-# above tracker/test (tracker/src/pa.js and public/js/pa.js). Inside the container
-# that is the filesystem root. If the app repo is not on this machine, point
-# PRIVATUS_APP at it: PRIVATUS_APP=~/projects/privatus-app ./run-docker.sh
+# The tracker tests that run the real pa.js use copies in tracker/test/fixtures/, so the
+# app repo is not needed. scripts/refresh-tracker-fixtures.sh updates those copies.
 set -e
-APP_MOUNTS=""
-if [ -n "$PRIVATUS_APP" ]; then
-  APP_MOUNTS="-v $PRIVATUS_APP/tracker:/tracker:ro -v $PRIVATUS_APP/public:/public:ro"
-fi
-# shellcheck disable=SC2086
-docker run --rm -v "$PWD":/src:ro $APP_MOUNTS -w /app node:22-slim sh -c 'set -e
+docker run --rm -v "$PWD":/src:ro -w /app node:22-slim sh -c 'set -e
   tar -C /src --exclude=node_modules --exclude=dist --exclude=.git -cf - . | tar -xf -
   npm ci --no-audit --no-fund
   npm run build

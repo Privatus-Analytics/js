@@ -34,7 +34,7 @@ Every function is a no-op when there is no `window`, so it is safe to import in 
 |---|---|---|
 | `site` (required) | `data-site` | Site ID, e.g. `pa_AbC123` |
 | `api` | `data-api` | Origin for `/api/event` and modules. Only needed when you host a copy of `pa.js` yourself |
-| `src` | `src` | Defaults to `{api}/js/pa.js`, or to `https://privatusanalytics.com/js/pa.js` when `api` is not set |
+| `src` | `src` | Defaults to `{api}/js/pa.js`, or to `https://privatusstats.com/js/pa.js` when `api` is not set |
 | `spa` | `data-spa` | `auto` (default), `history`, `hash`, `off` |
 | `manual` | `data-manual` | Turn off the automatic pageview |
 | `modules` | `data-modules` | e.g. `['engage', 'vitals']`. Setting this replaces the default `engage`, so list it too if you want to keep it |

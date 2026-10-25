@@ -5,7 +5,7 @@ import { usePrivatus } from '../src/runtime.js'
 describe('@privatus-analytics/nuxt', () => {
   it('builds the head script entry', () => {
     expect(headScript({ site: 'pa_n', spa: 'history', namespace: 'pa' })).toEqual({
-      src: 'https://privatusanalytics.com/js/pa.js',
+      src: 'https://privatusstats.com/js/pa.js',
       defer: true,
       tagPosition: 'head',
       'data-site': 'pa_n',

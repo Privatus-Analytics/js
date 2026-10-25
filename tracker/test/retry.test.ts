@@ -4,10 +4,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 // The real tracker, not a stub: these pin how pa.js retries failed hits, in
 // the source and in the minified file that sites load.
-const ROOT = resolve(__dirname, '../../../..')
+// Copies from the app repo, see fixtures/README.md.
+const FIXTURES = resolve(__dirname, 'fixtures')
 const SCRIPTS = {
-  'tracker/src/pa.js': readFileSync(resolve(ROOT, 'tracker/src/pa.js'), 'utf8'),
-  'public/js/pa.js': readFileSync(resolve(ROOT, 'public/js/pa.js'), 'utf8'),
+  'tracker/src/pa.js': readFileSync(resolve(FIXTURES, 'pa.src.js'), 'utf8'),
+  'public/js/pa.js': readFileSync(resolve(FIXTURES, 'pa.min.js'), 'utf8'),
 }
 let script: keyof typeof SCRIPTS
 

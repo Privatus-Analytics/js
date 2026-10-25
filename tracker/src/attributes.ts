@@ -3,7 +3,8 @@
  * read by pa.js. Safe to import on the server (no DOM access).
  */
 
-export const DEFAULT_HOST = 'https://privatusanalytics.com'
+/** The tracker host: serves /js/pa.js and receives hits. The website and docs stay on privatusanalytics.com. */
+export const DEFAULT_HOST = 'https://privatusstats.com'
 
 export type SpaMode = 'auto' | 'history' | 'hash' | 'off'
 

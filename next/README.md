@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-The component loads `https://privatusanalytics.com/js/pa.js`, and hits go to `https://privatusanalytics.com/api/event`. Every `@privatus-analytics/tracker` option is accepted (`spa`, `modules`, `exclude`, `mask`, …). Client-side navigations are tracked automatically.
+The component loads `https://privatusstats.com/js/pa.js`, and hits go to `https://privatusstats.com/api/event`. Every `@privatus-analytics/tracker` option is accepted (`spa`, `modules`, `exclude`, `mask`, …). Client-side navigations are tracked automatically.
 
 ```tsx
 'use client'
