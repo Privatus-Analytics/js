@@ -1,7 +1,7 @@
 # @privatus-analytics/tracker
 
 > **Not published yet.** Build and install `@privatus-analytics/tracker` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
+> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
 A typed, SSR-safe loader for the [Privatus Analytics](https://privatusanalytics.com) tracker (`pa.js`). Privatus Analytics is cookieless analytics: no cookies, no localStorage or sessionStorage, no fingerprinting and no device IDs. This package keeps that promise and adds no storage of its own.
 

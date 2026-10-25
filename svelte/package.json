@@ -55,5 +55,14 @@
     "svelte": {
       "optional": true
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "svelte"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

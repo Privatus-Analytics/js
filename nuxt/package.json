@@ -62,5 +62,14 @@
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^4.1.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "nuxt"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

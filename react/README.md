@@ -1,7 +1,7 @@
 # @privatus-analytics/react
 
 > **Not published yet.** Build and install `@privatus-analytics/react` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
+> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
 [Privatus Analytics](https://privatusanalytics.com) for React. Cookieless: no cookies, storage or device IDs. SSR-safe.
 

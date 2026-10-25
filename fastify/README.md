@@ -1,7 +1,7 @@
 # @privatus-analytics/fastify
 
 > **Not published yet.** Build and install `@privatus-analytics/fastify` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
+> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your Fastify app. You get a reply helper and template

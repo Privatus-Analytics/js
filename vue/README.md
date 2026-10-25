@@ -1,7 +1,7 @@
 # @privatus-analytics/vue
 
 > **Not published yet.** Build and install `@privatus-analytics/vue` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
+> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
 [Privatus Analytics](https://privatusanalytics.com) for Vue 3. Cookieless: no cookies, storage or device IDs. SSR-safe.
 

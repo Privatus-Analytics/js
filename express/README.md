@@ -1,7 +1,7 @@
 # @privatus-analytics/express
 
 > **Not published yet.** Build and install `@privatus-analytics/express` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
+> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your Express app. You get a helper for your templates, or an

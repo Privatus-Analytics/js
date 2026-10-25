@@ -1,7 +1,7 @@
 # @privatus-analytics/nestjs
 
 > **Not published yet.** Build and install `@privatus-analytics/nestjs` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
+> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your NestJS app. You get a module with a service for your

@@ -4,7 +4,13 @@
   "description": "Typed, SSR-safe loader for the Privatus Analytics cookieless tracker (pa.js)",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",
-  "keywords": ["analytics", "privacy", "cookieless", "gdpr", "privatus"],
+  "keywords": [
+    "analytics",
+    "privacy",
+    "cookieless",
+    "gdpr",
+    "privatus"
+  ],
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",
@@ -12,12 +18,22 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
-      "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -p . && tsup",
     "typecheck": "tsc -p .",
@@ -28,5 +44,14 @@
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^4.1.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "tracker"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

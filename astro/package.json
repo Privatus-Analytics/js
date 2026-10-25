@@ -55,5 +55,14 @@
     "astro": {
       "optional": true
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "astro"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }
