@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   clean: true,
   target: 'es2018',
-  external: ['@privatus/tracker'],
+  external: ['@privatus-analytics/tracker'],
 })

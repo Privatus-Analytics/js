@@ -1,5 +1,5 @@
 /**
- * @privatus/svelte: Privatus Analytics for Svelte and SvelteKit.
+ * @privatus-analytics/svelte: Privatus Analytics for Svelte and SvelteKit.
  *
  * - `initPrivatus(options)` in a root layout's onMount (or use the hook).
  * - `use:privatus={{ name: 'signup', props: { plan } }}` action.
@@ -8,9 +8,9 @@
  *
  * No cookies, storage or device ids.
  */
-import { getClient, init, renderScriptTag, type PrivatusClient, type PrivatusOptions, type Props } from '@privatus/tracker'
+import { getClient, init, renderScriptTag, type PrivatusClient, type PrivatusOptions, type Props } from '@privatus-analytics/tracker'
 
-export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus/tracker'
+export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus-analytics/tracker'
 
 export { getClient }
 

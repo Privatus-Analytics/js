@@ -1,7 +1,7 @@
 /**
- * @privatus/hono: Privatus Analytics for Hono.
+ * @privatus-analytics/hono: Privatus Analytics for Hono.
  *
- *   import { privatus, privatusAnalyticsTag } from '@privatus/hono'
+ *   import { privatus, privatusAnalyticsTag } from '@privatus-analytics/hono'
  *   app.use(privatus({ siteId: 'pa_XXXX' }))
  *   app.get('/', (c) => c.html(html`<head>${privatusAnalyticsTag(c)}</head>`))
  *
@@ -29,10 +29,10 @@ import {
   type Props,
   type Runtime,
   type TagOverrides,
-} from '@privatus/html-core'
+} from '@privatus-analytics/html-core'
 
-export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus/html-core'
-export { QUEUE_STUB } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus-analytics/html-core'
+export { QUEUE_STUB } from '@privatus-analytics/html-core'
 
 export interface PrivatusHonoOptions extends Omit<BaseOptions<Context>, 'nonce'> {
   /**

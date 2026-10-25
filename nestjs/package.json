@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/nestjs",
+  "name": "@privatus-analytics/nestjs",
   "version": "1.0.0",
   "description": "Privatus Analytics for NestJS: a module with the cookieless tracking script tag, event and click attributes, page props and optional auto inject",
   "license": "MIT",
@@ -56,7 +56,7 @@
     "@nestjs/common": "^12.2.0",
     "@nestjs/core": "^12.2.0",
     "@nestjs/platform-express": "^12.2.0",
-    "@privatus/html-core": "1.0.0",
+    "@privatus-analytics/html-core": "1.0.0",
     "@types/express": "^5.0.6",
     "@types/node": "^22.10.0",
     "ejs": "^3.1.10",
@@ -67,7 +67,6 @@
     "vitest": "^4.1.11"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }

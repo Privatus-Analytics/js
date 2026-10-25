@@ -53,14 +53,11 @@
   },
   "devDependencies": {
     "@docusaurus/types": "^3.10.2",
-    "@privatus/html-core": "1.0.0",
+    "@privatus-analytics/html-core": "1.0.0",
     "@types/node": "^22.10.0",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^4.1.11"
-  },
-  "publishConfig": {
-    "provenance": true
   },
   "peerDependenciesMeta": {
     "@docusaurus/core": {

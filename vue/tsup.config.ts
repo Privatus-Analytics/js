@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   clean: true,
   target: 'es2018',
-  external: ['vue', '@privatus/tracker'],
+  external: ['vue', '@privatus-analytics/tracker'],
 })

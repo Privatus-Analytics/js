@@ -1,12 +1,12 @@
 /**
- * @privatus/react: load the Privatus Analytics tracker from a React tree.
+ * @privatus-analytics/react: load the Privatus Analytics tracker from a React tree.
  * No cookies, storage or device ids; SSR-safe (the script is injected in an
  * effect, which never runs on the server).
  */
 import { useEffect, useMemo } from 'react'
-import { getClient, init, type PrivatusClient, type PrivatusOptions } from '@privatus/tracker'
+import { getClient, init, type PrivatusClient, type PrivatusOptions } from '@privatus-analytics/tracker'
 
-export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus/tracker'
+export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus-analytics/tracker'
 
 export type PrivatusAnalyticsProps = PrivatusOptions
 

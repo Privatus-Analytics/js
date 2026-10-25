@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/html-core",
+  "name": "@privatus-analytics/html-core",
   "version": "1.0.0",
   "private": true,
   "description": "Internal. The HTML rules shared by the Privatus server and site generator packages. Bundled into each package, never published.",

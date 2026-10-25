@@ -1,7 +1,7 @@
 /**
- * @privatus/express: Privatus Analytics for Express.
+ * @privatus-analytics/express: Privatus Analytics for Express.
  *
- *   import privatus from '@privatus/express'
+ *   import privatus from '@privatus-analytics/express'
  *   app.use(privatus({ siteId: 'pa_XXXX' }))
  *   // in a template: <%- privatusAnalyticsTag() %>
  *
@@ -20,11 +20,11 @@ import {
   type Props,
   type Runtime,
   type TagOverrides,
-} from '@privatus/html-core'
-import { injectIntoNodeResponse } from '@privatus/html-core/node'
+} from '@privatus-analytics/html-core'
+import { injectIntoNodeResponse } from '@privatus-analytics/html-core/node'
 
-export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus/html-core'
-export { QUEUE_STUB } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus-analytics/html-core'
+export { QUEUE_STUB } from '@privatus-analytics/html-core'
 
 /** Where the tag finds the request and response. */
 export interface ExpressContext {

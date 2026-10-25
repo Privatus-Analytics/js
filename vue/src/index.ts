@@ -1,5 +1,5 @@
 /**
- * @privatus/vue: Vue 3 plugin for the Privatus Analytics tracker.
+ * @privatus-analytics/vue: Vue 3 plugin for the Privatus Analytics tracker.
  *
  *   app.use(createPrivatus({ site: 'pa_XXXX' }))
  *
@@ -7,9 +7,9 @@
  * there is no `window` (the plugin can be installed in SSR apps as-is).
  */
 import { inject, type App, type Directive, type InjectionKey, type Plugin } from 'vue'
-import { getClient, init, namespaceOf, type PrivatusClient, type PrivatusOptions, type Props } from '@privatus/tracker'
+import { getClient, init, namespaceOf, type PrivatusClient, type PrivatusOptions, type Props } from '@privatus-analytics/tracker'
 
-export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus/tracker'
+export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus-analytics/tracker'
 
 export const PrivatusKey: InjectionKey<PrivatusClient> = Symbol('privatus')
 

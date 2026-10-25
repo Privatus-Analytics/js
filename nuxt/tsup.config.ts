@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   clean: true,
   target: 'es2018',
-  external: ['@nuxt/kit', '#imports', '@privatus/tracker'],
+  external: ['@nuxt/kit', '#imports', '@privatus-analytics/tracker'],
 })

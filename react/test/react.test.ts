@@ -17,7 +17,7 @@ function Button() {
   return createElement('button', { onClick: () => privatus.track('clicked', { where: 'test' }) }, 'Go')
 }
 
-describe('@privatus/react', () => {
+describe('@privatus-analytics/react', () => {
   it('injects the tracker once and queues events from the hook', async () => {
     const container = document.createElement('div')
     document.body.appendChild(container)

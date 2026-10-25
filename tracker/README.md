@@ -1,19 +1,18 @@
-# @privatus/tracker
+# @privatus-analytics/tracker
 
-> **Not published.** Do not install `@privatus/tracker` from the public npm registry.
-> The `@privatus` scope on npm does not belong to Privatus Analytics, so a package with this name there is not ours.
-> Build and install it from this folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/tracker` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 A typed, SSR-safe loader for the [Privatus Analytics](https://privatusanalytics.com) tracker (`pa.js`). Privatus Analytics is cookieless analytics: no cookies, no localStorage or sessionStorage, no fingerprinting and no device IDs. This package keeps that promise and adds no storage of its own.
 
 ```sh
-npm install @privatus/tracker
+npm install @privatus-analytics/tracker
 ```
 
 ## Usage
 
 ```ts
-import { init, track, pageview, props, optOut } from '@privatus/tracker'
+import { init, track, pageview, props, optOut } from '@privatus-analytics/tracker'
 
 init({ site: 'pa_XXXX' })           // injects <script src=".../js/pa.js" data-site="pa_XXXX" defer>
 
@@ -63,7 +62,7 @@ Helpers for server rendering and integrations:
 ## Tests
 
 ```sh
-docker run --rm -v "$PWD/..":/w -w /w node:22 sh -c "npm install && npm test -w @privatus/tracker"
+docker run --rm -v "$PWD/..":/w -w /w node:22 sh -c "npm install && npm test -w @privatus-analytics/tracker"
 ```
 
 MIT licensed.

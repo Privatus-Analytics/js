@@ -5,7 +5,7 @@
   "workspaces": ["tracker", "react", "next", "vue", "svelte", "nuxt", "astro", "html-core", "express", "fastify", "hono", "nestjs", "eleventy", "docusaurus", "vitepress", "gatsby"],
   "scripts": {
     "build": "npm run build --workspaces",
-    "test": "npm run build -w @privatus/tracker && npm test --workspaces",
+    "test": "npm run build -w @privatus-analytics/tracker && npm test --workspaces",
     "typecheck": "npm run typecheck --workspaces"
   }
 }

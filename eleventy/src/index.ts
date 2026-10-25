@@ -22,10 +22,10 @@ import {
   type Props,
   type Runtime,
   type TagOverrides,
-} from '@privatus/html-core'
+} from '@privatus-analytics/html-core'
 
-export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus/html-core'
-export { QUEUE_STUB } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus-analytics/html-core'
+export { QUEUE_STUB } from '@privatus-analytics/html-core'
 
 /** The parts of Eleventy's `page` object the plugin passes to your props function. */
 export interface EleventyPage {

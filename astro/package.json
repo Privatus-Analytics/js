@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/astro",
+  "name": "@privatus-analytics/astro",
   "version": "0.1.0",
   "description": "Privatus Analytics integration for Astro",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@privatus/tracker": "^0.1.0"
+    "@privatus-analytics/tracker": "^0.1.0"
   },
   "peerDependencies": {
     "astro": ">=3"

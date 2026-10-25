@@ -1,5 +1,5 @@
 /**
- * @privatus/tracker: typed loader and API for the Privatus Analytics
+ * @privatus-analytics/tracker: typed loader and API for the Privatus Analytics
  * browser tracker (pa.js).
  *
  * - No cookies, localStorage, sessionStorage or device ids are added by this

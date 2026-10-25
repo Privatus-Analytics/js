@@ -6,6 +6,6 @@ export default defineConfig({
   dts: true,
   clean: true,
   target: 'es2018',
-  external: ['react', '@privatus/tracker'],
+  external: ['react', '@privatus-analytics/tracker'],
   banner: { js: '"use client";' },
 })

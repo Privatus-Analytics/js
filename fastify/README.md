@@ -1,8 +1,7 @@
-# @privatus/fastify
+# @privatus-analytics/fastify
 
-> **Not published yet.** The `@privatus` scope on npm does not belong to Privatus Analytics, so a
-> package with this name on the public npm registry is not ours. Build and install it from this
-> folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/fastify` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your Fastify app. You get a reply helper and template
@@ -26,7 +25,7 @@ free plan. Sign up at https://privatusanalytics.com.
 ## Install
 
 ```sh
-npm install @privatus/fastify
+npm install @privatus-analytics/fastify
 ```
 
 A site id starts with `pa_`. You find it in Privatus Analytics under Site
@@ -43,7 +42,7 @@ or pass it when you register the plugin:
 
 ```js
 import Fastify from 'fastify'
-import privatus from '@privatus/fastify'
+import privatus from '@privatus-analytics/fastify'
 
 const app = Fastify()
 await app.register(privatus, { siteId: 'pa_YOURSITEID' })
@@ -204,7 +203,7 @@ attributes inside a tag you write yourself:
 ```
 
 ```js
-import { eventAttrs } from '@privatus/fastify'
+import { eventAttrs } from '@privatus-analytics/fastify'
 
 `<button ${eventAttrs('Report exported', { format: 'csv', source: 'toolbar' })}>Export</button>`
 ```

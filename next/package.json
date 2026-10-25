@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/next",
+  "name": "@privatus-analytics/next",
   "version": "0.1.0",
   "description": "Privatus Analytics for Next.js: <PrivatusAnalytics /> component and usePrivatus() hook",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@privatus/tracker": "^0.1.0"
+    "@privatus-analytics/tracker": "^0.1.0"
   },
   "peerDependencies": {
     "next": ">=13.4",

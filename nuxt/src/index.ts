@@ -1,9 +1,9 @@
 /**
- * @privatus/nuxt: Nuxt 3 module for Privatus Analytics.
+ * @privatus-analytics/nuxt: Nuxt 3 module for Privatus Analytics.
  *
  *   // nuxt.config.ts
  *   export default defineNuxtConfig({
- *     modules: ['@privatus/nuxt'],
+ *     modules: ['@privatus-analytics/nuxt'],
  *     privatus: { site: 'pa_XXXX' },
  *   })
  *
@@ -11,9 +11,9 @@
  * and `usePrivatus()` is auto-imported. No cookies, storage or device ids.
  */
 import { addImports, defineNuxtModule } from '@nuxt/kit'
-import { scriptAttributes, type PrivatusOptions } from '@privatus/tracker'
+import { scriptAttributes, type PrivatusOptions } from '@privatus-analytics/tracker'
 
-export type { PrivatusOptions } from '@privatus/tracker'
+export type { PrivatusOptions } from '@privatus-analytics/tracker'
 
 export type ModuleOptions = Partial<PrivatusOptions>
 
@@ -53,13 +53,13 @@ export function resolveSite(options: ModuleOptions, env: Record<string, string |
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@privatus/nuxt',
+    name: '@privatus-analytics/nuxt',
     configKey: 'privatus',
     compatibility: { nuxt: '>=3.0.0' },
   },
   defaults: {},
   setup(options, nuxt) {
-    addImports({ name: 'usePrivatus', from: '@privatus/nuxt/runtime' })
+    addImports({ name: 'usePrivatus', from: '@privatus-analytics/nuxt/runtime' })
     const site = resolveSite(options)
     if (!site) {
       console.warn('[privatus] No site id: set `privatus.site` or NUXT_PUBLIC_PRIVATUS_SITE. Tracker not added.')

@@ -1,17 +1,16 @@
-# @privatus/react
+# @privatus-analytics/react
 
-> **Not published.** Do not install `@privatus/react` from the public npm registry.
-> The `@privatus` scope on npm does not belong to Privatus Analytics, so a package with this name there is not ours.
-> Build and install it from this folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/react` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 [Privatus Analytics](https://privatusanalytics.com) for React. Cookieless: no cookies, storage or device IDs. SSR-safe.
 
 ```sh
-npm install @privatus/react
+npm install @privatus-analytics/react
 ```
 
 ```tsx
-import { PrivatusAnalytics, usePrivatus } from '@privatus/react'
+import { PrivatusAnalytics, usePrivatus } from '@privatus-analytics/react'
 
 export function App() {
   return (
@@ -28,10 +27,10 @@ function Signup() {
 }
 ```
 
-- `<PrivatusAnalytics {...options} />` injects `pa.js` once, from an effect, and renders nothing. It accepts every [`@privatus/tracker`](../tracker) option.
+- `<PrivatusAnalytics {...options} />` injects `pa.js` once, from an effect, and renders nothing. It accepts every [`@privatus-analytics/tracker`](../tracker) option.
 - `usePrivatus(namespace?)` returns the client: `track`, `trackAsync`, `pageview`, `props`, `optOut`, `optIn`, `isOptedOut`, `ready`. Calls made before the script loads are queued.
 - React Router and other `pushState` routers are tracked automatically (`spa: 'auto'`).
 
-For Next.js, use [`@privatus/next`](../next).
+For Next.js, use [`@privatus-analytics/next`](../next).
 
 MIT licensed.

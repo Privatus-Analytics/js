@@ -1,8 +1,7 @@
-# @privatus/nestjs
+# @privatus-analytics/nestjs
 
-> **Not published yet.** The `@privatus` scope on npm does not belong to Privatus Analytics, so a
-> package with this name on the public npm registry is not ours. Build and install it from this
-> folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/nestjs` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your NestJS app. You get a module with a service for your
@@ -28,7 +27,7 @@ free plan. Sign up at https://privatusanalytics.com.
 ## Install
 
 ```sh
-npm install @privatus/nestjs
+npm install @privatus-analytics/nestjs
 ```
 
 A site id starts with `pa_`. You find it in Privatus Analytics under Site
@@ -46,7 +45,7 @@ so `PrivatusService` is available everywhere:
 
 ```ts
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
-import { PrivatusMiddleware, PrivatusModule } from '@privatus/nestjs'
+import { PrivatusMiddleware, PrivatusModule } from '@privatus-analytics/nestjs'
 
 @Module({ imports: [PrivatusModule.forRoot({ siteId: 'pa_YOURSITEID' })] })
 export class AppModule implements NestModule {
@@ -143,7 +142,7 @@ How it works, and what it cannot do:
 * **On the Fastify platform** (`@nestjs/platform-fastify`), Fastify writes the
   headers and the body in one step, so auto inject does nothing and there is
   no `res.locals`. Use `PrivatusService.tag()` in your controllers, or register
-  [`@privatus/fastify`](../fastify) on the Fastify instance.
+  [`@privatus-analytics/fastify`](../fastify) on the Fastify instance.
 
 ## Configuration
 

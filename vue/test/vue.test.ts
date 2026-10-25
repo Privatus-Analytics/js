@@ -8,7 +8,7 @@ afterEach(() => {
   delete (window as any).privatus
 })
 
-describe('@privatus/vue', () => {
+describe('@privatus-analytics/vue', () => {
   it('installs the tracker, provides the client and tracks via the directive', async () => {
     let fromHook: ReturnType<typeof usePrivatus> | undefined
     const App = defineComponent({

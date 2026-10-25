@@ -1,20 +1,19 @@
-# @privatus/svelte
+# @privatus-analytics/svelte
 
-> **Not published.** Do not install `@privatus/svelte` from the public npm registry.
-> The `@privatus` scope on npm does not belong to Privatus Analytics, so a package with this name there is not ours.
-> Build and install it from this folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/svelte` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 [Privatus Analytics](https://privatusanalytics.com) for Svelte and SvelteKit. Cookieless: no cookies, storage or device IDs.
 
 ```sh
-npm install @privatus/svelte
+npm install @privatus-analytics/svelte
 ```
 
 ## SvelteKit: server-rendered script via a `handle` hook
 
 ```ts
 // src/hooks.server.ts
-import { privatusHandle } from '@privatus/svelte'
+import { privatusHandle } from '@privatus-analytics/svelte'
 export const handle = privatusHandle({ site: 'pa_XXXX' })
 // with other hooks: export const handle = sequence(privatusHandle({ site: 'pa_XXXX' }), yourHandle)
 ```
@@ -26,7 +25,7 @@ The hook puts the tracker `<script>` right before `</head>`. Client-side navigat
 ```svelte
 <script>
   import { onMount } from 'svelte'
-  import { initPrivatus } from '@privatus/svelte'
+  import { initPrivatus } from '@privatus-analytics/svelte'
   onMount(() => initPrivatus({ site: 'pa_XXXX' }))
 </script>
 ```
@@ -35,7 +34,7 @@ The hook puts the tracker `<script>` right before `</head>`. Client-side navigat
 
 ```svelte
 <script>
-  import { privatus, getClient } from '@privatus/svelte'
+  import { privatus, getClient } from '@privatus-analytics/svelte'
 </script>
 
 <button use:privatus={{ name: 'signup', props: { plan: 'pro' } }}>Sign up</button>

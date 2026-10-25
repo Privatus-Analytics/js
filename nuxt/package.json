@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/nuxt",
+  "name": "@privatus-analytics/nuxt",
   "version": "0.1.0",
   "description": "Privatus Analytics module for Nuxt 3",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@privatus/tracker": "^0.1.0",
+    "@privatus-analytics/tracker": "^0.1.0",
     "@nuxt/kit": "^3.14.0"
   },
   "peerDependencies": {

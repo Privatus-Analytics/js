@@ -1,8 +1,7 @@
-# @privatus/express
+# @privatus-analytics/express
 
-> **Not published yet.** The `@privatus` scope on npm does not belong to Privatus Analytics, so a
-> package with this name on the public npm registry is not ours. Build and install it from this
-> folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/express` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your Express app. You get a helper for your templates, or an
@@ -26,7 +25,7 @@ free plan. Sign up at https://privatusanalytics.com.
 ## Install
 
 ```sh
-npm install @privatus/express
+npm install @privatus-analytics/express
 ```
 
 A site id starts with `pa_`. You find it in Privatus Analytics under Site
@@ -43,7 +42,7 @@ or pass it to the middleware:
 
 ```js
 import express from 'express'
-import privatus from '@privatus/express'
+import privatus from '@privatus-analytics/express'
 
 const app = express()
 app.use(privatus({ siteId: 'pa_YOURSITEID' }))
@@ -234,7 +233,7 @@ Outside templates, import the same helpers. `eventData` gives an object with
 the full attribute names, handy for JSX or other HTML builders:
 
 ```js
-import { eventAttrs, eventData, clickAttr, clickData } from '@privatus/express'
+import { eventAttrs, eventData, clickAttr, clickData } from '@privatus-analytics/express'
 
 eventAttrs('Report exported', { format: 'csv' }) // 'data-privatus-event="Report exported" data-privatus-prop-format="csv"'
 eventData('Report exported', { format: 'csv' })  // { 'data-privatus-event': 'Report exported', 'data-privatus-prop-format': 'csv' }

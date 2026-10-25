@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import privatusModule, { applyToNuxtOptions, headScript, resolveSite } from '../src/index.js'
 import { usePrivatus } from '../src/runtime.js'
 
-describe('@privatus/nuxt', () => {
+describe('@privatus-analytics/nuxt', () => {
   it('builds the head script entry', () => {
     expect(headScript({ site: 'pa_n', spa: 'history', namespace: 'pa' })).toEqual({
       src: 'https://privatusanalytics.com/js/pa.js',
@@ -30,7 +30,7 @@ describe('@privatus/nuxt', () => {
 
   it('is a Nuxt module with the privatus config key', async () => {
     const meta = await privatusModule.getMeta!()
-    expect(meta).toMatchObject({ name: '@privatus/nuxt', configKey: 'privatus' })
+    expect(meta).toMatchObject({ name: '@privatus-analytics/nuxt', configKey: 'privatus' })
   })
 
   it('usePrivatus returns the tracker client', () => {

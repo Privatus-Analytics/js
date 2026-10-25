@@ -1,24 +1,23 @@
-# @privatus/nuxt
+# @privatus-analytics/nuxt
 
-> **Not published.** Do not install `@privatus/nuxt` from the public npm registry.
-> The `@privatus` scope on npm does not belong to Privatus Analytics, so a package with this name there is not ours.
-> Build and install it from this folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/nuxt` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 Nuxt 3 module for [Privatus Analytics](https://privatusanalytics.com). Cookieless: no cookies, storage or device IDs.
 
 ```sh
-npm install @privatus/nuxt
+npm install @privatus-analytics/nuxt
 ```
 
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@privatus/nuxt'],
+  modules: ['@privatus-analytics/nuxt'],
   privatus: { site: 'pa_XXXX' }, // or set NUXT_PUBLIC_PRIVATUS_SITE / PRIVATUS_SITE at build time
 })
 ```
 
-The module server-renders the tracker `<script>` into `<head>` through `app.head.script`, and Vue Router navigations are tracked automatically. Every [`@privatus/tracker`](../tracker) option is accepted under `privatus` (`spa`, `modules`, `exclude`, `mask`, `api`, …). If no site ID is configured, the module logs a warning and adds nothing.
+The module server-renders the tracker `<script>` into `<head>` through `app.head.script`, and Vue Router navigations are tracked automatically. Every [`@privatus-analytics/tracker`](../tracker) option is accepted under `privatus` (`spa`, `modules`, `exclude`, `mask`, `api`, …). If no site ID is configured, the module logs a warning and adds nothing.
 
 `usePrivatus()` is auto-imported:
 

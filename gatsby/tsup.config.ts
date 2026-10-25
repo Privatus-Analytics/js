@@ -10,5 +10,5 @@ export default defineConfig({
   target: 'es2018',
   // The shared HTML rules (../html-core, private) are bundled in, so the package has no
   // Privatus dependency. tsconfig paths point the type bundler at the same source.
-  noExternal: ['@privatus/html-core'],
+  noExternal: ['@privatus-analytics/html-core'],
 })

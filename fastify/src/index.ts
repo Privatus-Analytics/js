@@ -1,7 +1,7 @@
 /**
- * @privatus/fastify: Privatus Analytics for Fastify.
+ * @privatus-analytics/fastify: Privatus Analytics for Fastify.
  *
- *   import privatus from '@privatus/fastify'
+ *   import privatus from '@privatus-analytics/fastify'
  *   await app.register(privatus, { siteId: 'pa_XXXX' })
  *   // in a handler: reply.privatusAnalyticsTag()
  *
@@ -24,10 +24,10 @@ import {
   type Props,
   type Runtime,
   type TagOverrides,
-} from '@privatus/html-core'
+} from '@privatus-analytics/html-core'
 
-export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus/html-core'
-export { QUEUE_STUB } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus-analytics/html-core'
+export { QUEUE_STUB } from '@privatus-analytics/html-core'
 
 export interface PrivatusFastifyOptions extends Omit<BaseOptions<FastifyRequest>, 'nonce'> {
   /**
@@ -156,8 +156,8 @@ function plugin(fastify: FastifyInstance, options: PrivatusFastifyOptions, done:
 // with the whole app instead of keeping them inside this plugin's scope.
 const meta = plugin as typeof plugin & Record<symbol, unknown>
 meta[Symbol.for('skip-override')] = true
-meta[Symbol.for('fastify.display-name')] = '@privatus/fastify'
-meta[Symbol.for('plugin-meta')] = { fastify: '>=4', name: '@privatus/fastify' }
+meta[Symbol.for('fastify.display-name')] = '@privatus-analytics/fastify'
+meta[Symbol.for('plugin-meta')] = { fastify: '>=4', name: '@privatus-analytics/fastify' }
 
 /** The Fastify plugin. Register it with `app.register(privatus, options)`. */
 export const privatus = plugin

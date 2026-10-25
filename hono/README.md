@@ -1,8 +1,7 @@
-# @privatus/hono
+# @privatus-analytics/hono
 
-> **Not published yet.** The `@privatus` scope on npm does not belong to Privatus Analytics, so a
-> package with this name on the public npm registry is not ours. Build and install it from this
-> folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/hono` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
 tracking script to your Hono app. You get a helper for `html` templates and
@@ -27,7 +26,7 @@ free plan. Sign up at https://privatusanalytics.com.
 ## Install
 
 ```sh
-npm install @privatus/hono
+npm install @privatus-analytics/hono
 ```
 
 A site id starts with `pa_`. You find it in Privatus Analytics under Site
@@ -45,7 +44,7 @@ or pass it to the middleware:
 
 ```ts
 import { Hono } from 'hono'
-import { privatus } from '@privatus/hono'
+import { privatus } from '@privatus-analytics/hono'
 
 const app = new Hono()
 app.use(privatus({ siteId: 'pa_YOURSITEID' }))
@@ -58,7 +57,7 @@ helper and for JSX:
 
 ```ts
 import { html } from 'hono/html'
-import { privatusAnalyticsTag } from '@privatus/hono'
+import { privatusAnalyticsTag } from '@privatus-analytics/hono'
 
 app.get('/', (c) =>
   c.html(html`<html><head><title>My app</title>${privatusAnalyticsTag(c)}</head><body>...</body></html>`),
@@ -207,7 +206,7 @@ place, and you can split them by format.
 In JSX, spread `eventData` on the element:
 
 ```tsx
-import { eventData } from '@privatus/hono'
+import { eventData } from '@privatus-analytics/hono'
 
 <button {...eventData('Report exported', { format: 'csv', source: 'toolbar' })}>Export</button>
 ```

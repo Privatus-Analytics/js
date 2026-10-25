@@ -10,9 +10,9 @@
  * Only adds HTML tags. It never sends requests, sets no cookies and reads no visitor data.
  */
 import * as React from 'react'
-import { contextElements, type BaseOptions, type Props, type ScriptElement } from '@privatus/html-core'
+import { contextElements, type BaseOptions, type Props, type ScriptElement } from '@privatus-analytics/html-core'
 
-export type { Props, PropValue, SpaMode } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode } from '@privatus-analytics/html-core'
 
 export interface PrivatusGatsbyOptions extends Omit<BaseOptions<void>, 'props'> {
   /**

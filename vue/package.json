@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/vue",
+  "name": "@privatus-analytics/vue",
   "version": "0.1.0",
   "description": "Privatus Analytics for Vue 3: plugin, usePrivatus() and v-privatus-event",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@privatus/tracker": "^0.1.0"
+    "@privatus-analytics/tracker": "^0.1.0"
   },
   "peerDependencies": { "vue": ">=3.2" },
   "devDependencies": { "vue": "^3.5.13",

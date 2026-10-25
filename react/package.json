@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/react",
+  "name": "@privatus-analytics/react",
   "version": "0.1.0",
   "description": "Privatus Analytics for React: <PrivatusAnalytics /> and usePrivatus()",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@privatus/tracker": "^0.1.0"
+    "@privatus-analytics/tracker": "^0.1.0"
   },
   "peerDependencies": {
     "react": ">=17"

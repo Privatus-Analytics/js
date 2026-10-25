@@ -1,19 +1,18 @@
-# @privatus/next
+# @privatus-analytics/next
 
-> **Not published.** Do not install `@privatus/next` from the public npm registry.
-> The `@privatus` scope on npm does not belong to Privatus Analytics, so a package with this name there is not ours.
-> Build and install it from this folder until we announce the published name.
+> **Not published yet.** Build and install `@privatus-analytics/next` from this folder until the first release.
+> The `@privatus` scope on npm belongs to another organisation, so `@privatus/...` packages there are not ours.
 
 [Privatus Analytics](https://privatusanalytics.com) for Next.js (App Router and Pages Router). This package is cookieless: no cookies, no storage and no device IDs.
 
 ```sh
-npm install @privatus/next
+npm install @privatus-analytics/next
 ```
 
 ## Component (`app/layout.tsx`)
 
 ```tsx
-import { PrivatusAnalytics } from '@privatus/next'
+import { PrivatusAnalytics } from '@privatus-analytics/next'
 
 export default function RootLayout({ children }) {
   return (
@@ -25,11 +24,11 @@ export default function RootLayout({ children }) {
 }
 ```
 
-The component loads `https://privatusanalytics.com/js/pa.js`, and hits go to `https://privatusanalytics.com/api/event`. Every `@privatus/tracker` option is accepted (`spa`, `modules`, `exclude`, `mask`, …). Client-side navigations are tracked automatically.
+The component loads `https://privatusanalytics.com/js/pa.js`, and hits go to `https://privatusanalytics.com/api/event`. Every `@privatus-analytics/tracker` option is accepted (`spa`, `modules`, `exclude`, `mask`, …). Client-side navigations are tracked automatically.
 
 ```tsx
 'use client'
-import { usePrivatus } from '@privatus/next'
+import { usePrivatus } from '@privatus-analytics/next'
 
 export function Upgrade() {
   const privatus = usePrivatus()

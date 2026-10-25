@@ -1,5 +1,5 @@
 /**
- * @privatus/nestjs: Privatus Analytics for NestJS.
+ * @privatus-analytics/nestjs: Privatus Analytics for NestJS.
  *
  *   @Module({ imports: [PrivatusModule.forRoot({ siteId: 'pa_XXXX' })] })
  *   export class AppModule {}
@@ -24,11 +24,11 @@ import {
   type Props,
   type Runtime,
   type TagOverrides,
-} from '@privatus/html-core'
-import { injectIntoNodeResponse, type NodeRequest, type NodeResponse } from '@privatus/html-core/node'
+} from '@privatus-analytics/html-core'
+import { injectIntoNodeResponse, type NodeRequest, type NodeResponse } from '@privatus-analytics/html-core/node'
 
-export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus/html-core'
-export { QUEUE_STUB } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode, TagOverrides } from '@privatus-analytics/html-core'
+export { QUEUE_STUB } from '@privatus-analytics/html-core'
 
 /** The request your props function gets: the Express request on the Express platform. */
 export type PrivatusRequest = NodeRequest & Record<string, any>

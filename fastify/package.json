@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/fastify",
+  "name": "@privatus-analytics/fastify",
   "version": "1.0.0",
   "description": "Privatus Analytics for Fastify: the cookieless tracking script tag, event and click attributes, page props and optional auto inject",
   "license": "MIT",
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@fastify/compress": "^9.2.2",
-    "@privatus/html-core": "1.0.0",
+    "@privatus-analytics/html-core": "1.0.0",
     "@types/node": "^22.10.0",
     "fastify": "^5.12.7",
     "tsup": "^8.3.5",
@@ -61,7 +61,6 @@
     "vitest": "^4.1.11"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }

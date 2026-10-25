@@ -18,9 +18,9 @@ import {
   type BaseOptions,
   type Props,
   type ScriptElement,
-} from '@privatus/html-core'
+} from '@privatus-analytics/html-core'
 
-export type { Props, PropValue, SpaMode } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode } from '@privatus-analytics/html-core'
 
 /** VitePress' HeadConfig, written out so the package needs no VitePress types at run time. */
 export type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]

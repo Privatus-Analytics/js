@@ -9,9 +9,9 @@
  *
  * Only adds HTML tags. It never sends requests, sets no cookies and reads no visitor data.
  */
-import { contextElements, SPA_MODES, type BaseOptions, type Props } from '@privatus/html-core'
+import { contextElements, SPA_MODES, type BaseOptions, type Props } from '@privatus-analytics/html-core'
 
-export type { Props, PropValue, SpaMode } from '@privatus/html-core'
+export type { Props, PropValue, SpaMode } from '@privatus-analytics/html-core'
 
 export interface PrivatusDocusaurusOptions extends Omit<BaseOptions<void>, 'props'> {
   /**

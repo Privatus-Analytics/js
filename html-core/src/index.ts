@@ -1,5 +1,5 @@
 /**
- * @privatus/html-core: internal, never published. The HTML rules shared by the
+ * @privatus-analytics/html-core: internal, never published. The HTML rules shared by the
  * Privatus server middleware and site generator plugins. Each package bundles it.
  *
  * It only builds strings. It never sends requests, sets cookies or reads visitor data.

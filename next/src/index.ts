@@ -1,13 +1,13 @@
 /**
- * @privatus/next client entry (bundled with a "use client" banner).
+ * @privatus-analytics/next client entry (bundled with a "use client" banner).
  *
  * <PrivatusAnalytics site="pa_XXXX" /> loads pa.js from
  * privatusanalytics.com and sends hits there.
  */
 import { useEffect, useMemo } from 'react'
-import { getClient, init, type PrivatusClient, type PrivatusOptions } from '@privatus/tracker'
+import { getClient, init, type PrivatusClient, type PrivatusOptions } from '@privatus-analytics/tracker'
 
-export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus/tracker'
+export type { PrivatusClient, PrivatusOptions, Props, PageviewOptions } from '@privatus-analytics/tracker'
 
 export type PrivatusAnalyticsProps = PrivatusOptions
 

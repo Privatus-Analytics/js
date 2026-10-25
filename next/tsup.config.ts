@@ -6,6 +6,6 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   dts: true,
   clean: false,
-  external: ['react', 'next', '@privatus/tracker'],
+  external: ['react', 'next', '@privatus-analytics/tracker'],
   banner: { js: '"use client";' },
 })

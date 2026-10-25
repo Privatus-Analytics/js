@@ -6,7 +6,7 @@ afterEach(() => {
   delete (window as any).privatus
 })
 
-describe('@privatus/svelte', () => {
+describe('@privatus-analytics/svelte', () => {
   it('action tracks on click, updates and cleans up', () => {
     initPrivatus({ site: 'pa_s' })
     expect(document.querySelectorAll('script[data-site="pa_s"]')).toHaveLength(1)

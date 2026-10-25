@@ -1,5 +1,5 @@
 {
-  "name": "@privatus/svelte",
+  "name": "@privatus-analytics/svelte",
   "version": "0.1.0",
   "description": "Privatus Analytics for Svelte and SvelteKit: use:privatus action and a handle hook",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@privatus/tracker": "^0.1.0"
+    "@privatus-analytics/tracker": "^0.1.0"
   },
   "peerDependencies": {
     "svelte": ">=3"
