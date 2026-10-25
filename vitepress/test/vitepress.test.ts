@@ -10,6 +10,8 @@ import { QUEUE_STUB } from '@privatus-analytics/html-core'
 import { privatusHead, privatusTransformHead, privatusVitePlugin } from '../src/index.js'
 
 const SITE = fileURLToPath(new URL('./vp-site', import.meta.url))
+// VitePress minifies inline head scripts unless their type leaves out "javascript".
+const INLINE = { type: 'text/ecmascript' }
 const APP = fileURLToPath(new URL('./vite-app', import.meta.url))
 const outputs: string[] = []
 
@@ -49,7 +51,7 @@ describe('privatusHead', () => {
     expect(privatusHead({ siteId: 'pa_VP' })).toEqual([])
     vi.stubEnv('NODE_ENV', 'production')
     expect(privatusHead({ siteId: 'pa_VP', props: { plan: 'pro' } })).toEqual([
-      ['script', {}, 'window.privatusPageProps=function(){return {"plan":"pro"}}'],
+      ['script', INLINE, 'window.privatusPageProps=function(){return {"plan":"pro"}}'],
       ['script', { defer: '', src: 'https://privatusstats.com/js/pa.js', 'data-site': 'pa_VP', 'data-props': 'privatusPageProps' }],
     ])
     expect(privatusHead({})).toEqual([])
@@ -57,12 +59,12 @@ describe('privatusHead', () => {
 
   it('when off, gives only the queue stub (when it is on), never the tracker or page props', () => {
     vi.stubEnv('NODE_ENV', 'development')
-    const stub = ['script', {}, QUEUE_STUB]
+    const stub = ['script', INLINE, QUEUE_STUB]
     expect(privatusHead({ siteId: 'pa_VP', queueStub: true, props: { plan: 'pro' } })).toEqual([stub])
     expect(privatusHead({ queueStub: true })).toEqual([stub])
     expect(privatusHead({ siteId: 'pa_VP', props: { plan: 'pro' } })).toEqual([])
     vi.stubEnv('NODE_ENV', 'production')
-    expect(privatusHead({ siteId: 'pa_VP', enabled: false, queueStub: true, nonce: 'abc' })).toEqual([['script', { nonce: 'abc' }, QUEUE_STUB]])
+    expect(privatusHead({ siteId: 'pa_VP', enabled: false, queueStub: true, nonce: 'abc' })).toEqual([['script', { ...INLINE, nonce: 'abc' }, QUEUE_STUB]])
   })
 
   it('works in a real vitepress build', async () => {
@@ -82,14 +84,24 @@ describe('privatusTransformHead', () => {
         props: ({ pageData }) => ({ section: pageData.frontmatter?.section, note: '</script><b>' }),
       }),
     })
-    // VitePress minifies inline head scripts, so the JSON comes back as plain JavaScript.
     const home = read('index.html')
-    expect(home).toMatch(/<script>window\.privatusPageProps=function\(\)\{return ?\{"?section"?: ?"home"/)
+    expect(home).toContain('<script type="text/ecmascript">window.privatusPageProps=function(){return {"section":"home"')
     expect(home).not.toContain('"</script>')
     expect(home.split('</script>').length).toBe(read('index.html').split('<script').length)
     const guide = read('guide/start.html')
-    expect(guide).toMatch(/section"?: ?"guide"/)
+    expect(guide).toContain('{"section":"guide"')
     expect(guide).toContain('<script defer src="https://privatusstats.com/js/pa.js" data-site="pa_VP" data-props="privatusPageProps"></script>')
+  }, 120_000)
+
+  it('keeps the queue stub and the escaped page props exactly as printed in a real vitepress build', async () => {
+    const read = await buildDocs({
+      transformHead: privatusTransformHead({ siteId: 'pa_VP', queueStub: true, props: { plan: 'pro', note: '</script>&' } }),
+    })
+    const home = read('index.html')
+    expect(home).toContain(`<script type="text/ecmascript">${QUEUE_STUB}</script>`)
+    expect(home).toContain(
+      '<script type="text/ecmascript">window.privatusPageProps=function(){return {"plan":"pro","note":"\\u003c/script\\u003e\\u0026"}}</script>'
+    )
   }, 120_000)
 
   it('can be switched off', () => {
@@ -100,7 +112,7 @@ describe('privatusTransformHead', () => {
   it('switched off with the queue stub on, gives only the stub and does not run the props function', () => {
     const props = vi.fn(() => ({ plan: 'pro' }))
     const hook = privatusTransformHead({ siteId: 'pa_VP', enabled: false, queueStub: true, props })
-    expect(hook({ page: 'index.md', pageData: { relativePath: 'index.md' } })).toEqual([['script', {}, QUEUE_STUB]])
+    expect(hook({ page: 'index.md', pageData: { relativePath: 'index.md' } })).toEqual([['script', INLINE, QUEUE_STUB]])
     expect(props).not.toHaveBeenCalled()
   })
 })

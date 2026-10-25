@@ -204,6 +204,12 @@ The stub prints even where the tag is off (in development, with
 and no page props. So you can always call `privatus.track(...)`. In
 development the calls just wait in the queue and are never sent.
 
+`docusaurus build` shortens (minifies) the HTML of every page, and the inline
+scripts in it. So the stub and the page props script in your built pages look
+a little different from the ones above. They do the same thing. If you need the
+exact text, for example for a Content Security Policy hash, build with
+`SKIP_HTML_MINIFICATION=true`.
+
 ### See the results
 
 * [Funnels](https://privatusanalytics.com/docs/features/funnels): how many
@@ -243,6 +249,10 @@ The tests run in Docker so your local Node does not matter. From the repo root:
 
 It installs every package, then runs the repo's `build`, `test` and
 `typecheck` scripts in a `node:22-slim` container.
+
+`example/` is a small Docusaurus site for the Privatus Analytics conformance tests,
+which check the tag in a real browser. The site is built with the plugin and
+served by nginx.
 
 ## Contributing
 

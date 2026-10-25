@@ -188,6 +188,24 @@ they are safe inside a script.
 props.** Privatus counts visitors without any id. Put groups (like the plan or
 the role), not people. The server also removes emails and long ids it finds.
 
+Plugin options are for the whole site. To use other settings on some pages,
+like props for one section, swap the plugin's scripts in your own
+`gatsby-ssr.js`. `headComponents(options)` gives the scripts for any options,
+and the plugin's own scripts have keys that start with `privatus-analytics-`:
+
+```js
+// gatsby-ssr.js
+const { headComponents } = require('gatsby-plugin-privatus/gatsby-ssr')
+const options = { siteId: 'pa_YOURSITEID', props: { site: 'blog' } }
+
+exports.onPreRenderHTML = ({ pathname, getHeadComponents, replaceHeadComponents }) => {
+  if (!pathname.startsWith('/docs/')) return
+  const ours = (c) => typeof c?.key === 'string' && c.key.startsWith('privatus-analytics-')
+  const rest = getHeadComponents().filter((c) => !ours(c))
+  replaceHeadComponents([...rest, ...headComponents({ ...options, props: { site: 'docs' } })])
+}
+```
+
 ### Track from your own JavaScript
 
 For things that are not a click or a submit, call the tracker from your
@@ -246,6 +264,10 @@ The tests run in Docker so your local Node does not matter. From the repo root:
 
 It installs every package, then runs the repo's `build`, `test` and
 `typecheck` scripts in a `node:22-slim` container.
+
+`example/` is a small Gatsby site for the Privatus Analytics conformance tests,
+which check the tag in a real browser. The site is built with the plugin and
+served by nginx.
 
 ## Contributing
 

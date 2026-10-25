@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import Joi from 'joi'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { createElement, Fragment, type ReactNode } from 'react'
@@ -63,5 +64,20 @@ describe('pluginOptionsSchema', () => {
   it('rejects typos and bad values', () => {
     expect(schema.validate({ siteID: 'pa_GATSBY' }).error?.message).toContain('"siteID" is not allowed')
     expect(schema.validate({ spa: 'yes' }).error?.message).toContain('"spa" must be one of')
+  })
+})
+
+describe('the files Gatsby loads', () => {
+  // Gatsby finds a plugin's gatsby-ssr.js APIs by reading the file (it parses it and
+  // looks for named exports), not by running it. A file that only does
+  // `module.exports = require(...)` names no API, so Gatsby never calls onRenderBody.
+  const read = (file: string) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')
+
+  it('gatsby-ssr.js names onRenderBody as an export Gatsby can see without running it', () => {
+    expect(read('gatsby-ssr.js')).toMatch(/^exports\.onRenderBody = /m)
+  })
+
+  it('gatsby-node.js names pluginOptionsSchema the same way', () => {
+    expect(read('gatsby-node.js')).toMatch(/^exports\.pluginOptionsSchema = /m)
   })
 })

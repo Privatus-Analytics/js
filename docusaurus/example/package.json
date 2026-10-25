@@ -1,0 +1,11 @@
+{
+  "name": "privatus-docusaurus-conformance-example",
+  "private": true,
+  "description": "The conformance example site for docusaurus-plugin-privatus. The Dockerfile installs the plugin from this repo's source.",
+  "dependencies": {
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/plugin-content-pages": "^3.10.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

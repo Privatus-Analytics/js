@@ -319,6 +319,10 @@ The tests run in Docker so your local Node does not matter. From the repo root:
 It installs every package, then runs the repo's `build`, `test` and
 `typecheck` scripts in a `node:22-slim` container.
 
+`example/` is a small Eleventy site for the Privatus Analytics conformance tests,
+which check the tag in a real browser. The site is built with the plugin and
+served by nginx.
+
 ## Contributing
 
 Bug reports and pull requests are welcome at

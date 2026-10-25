@@ -1,0 +1,10 @@
+---
+layout: base.njk
+title: Nasty
+nasty: "</script><script>window.__pwned=1</script>\u2028\u2029&<>\"'"
+tagOverrides:
+  props:
+    nasty: "</script><script>window.__pwned=1</script>\u2028\u2029&<>\"'"
+---
+<h1>Nasty</h1>
+<button type="button" {% privatusEventAttrs "Nasty value", { nasty: nasty } %}>Nasty</button>

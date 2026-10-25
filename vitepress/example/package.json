@@ -1,0 +1,10 @@
+{
+  "name": "privatus-vitepress-conformance-example",
+  "private": true,
+  "type": "module",
+  "description": "The conformance example site for vitepress-plugin-privatus. The Dockerfile installs the plugin from this repo's source.",
+  "dependencies": {
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.0"
+  }
+}

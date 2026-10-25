@@ -1,0 +1,8 @@
+---
+layout: base.njk
+title: Event
+---
+<h1>Event</h1>
+<button type="button" {% privatusEventAttrs "Report exported", { format: "csv", source: "toolbar" } %}>Export report</button>
+<a href="#pricing" {% privatusClickAttr "pricing.cta" %}>Pricing</a>
+<form action="/event" method="get" {% privatusEventAttrs "Signup form" %}><button type="submit">Sign up</button></form>

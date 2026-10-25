@@ -8,6 +8,7 @@
 - Fixed: the auto inject transform now adds nothing while the tag is off. With the new stub rule it would
   have added the stub to every page in `--serve`, and a second one next to the shortcode.
 - README: the privacy section has a paragraph you can paste into your privacy policy.
+- `example/`: a tiny site for the Privatus conformance tests, built with the plugin and served by nginx.
 
 ## 1.0.0 - 2026-10-25
 

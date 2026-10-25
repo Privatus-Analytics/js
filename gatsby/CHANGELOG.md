@@ -5,7 +5,12 @@
 - Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
   Before, it printed nothing. With `queueStub` off it still prints nothing.
+- Fixed: in a real `gatsby build` the plugin added nothing (found by the conformance tests). Gatsby finds a
+  plugin's APIs by reading `gatsby-ssr.js`, and the file only re-exported the built code, so Gatsby never saw
+  `onRenderBody`. `gatsby-ssr.js` and `gatsby-node.js` now name each API.
 - README: the privacy section has a paragraph you can paste into your privacy policy.
+- README: how to use other settings on some pages with `headComponents`.
+- `example/`: a tiny site for the Privatus conformance tests, built with the plugin and served by nginx.
 
 ## 1.0.0 - 2026-10-25
 

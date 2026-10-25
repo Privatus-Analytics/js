@@ -1,0 +1,6 @@
+node_modules
+dist
+*.tgz
+example/site/.vitepress/dist
+example/site/.vitepress/cache
+example/auto-app/dist

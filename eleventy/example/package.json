@@ -1,0 +1,9 @@
+{
+  "name": "privatus-eleventy-conformance-example",
+  "private": true,
+  "type": "module",
+  "description": "The conformance example site for eleventy-plugin-privatus. The Dockerfile installs the plugin from this repo's source.",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.7"
+  }
+}

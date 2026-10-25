@@ -7,7 +7,11 @@
   Before, it printed nothing. With `queueStub` off it still prints nothing.
 - Fixed: `privatusVitePlugin` now adds nothing to `index.html` while the tag is off. With the new stub rule it
   would have added the stub to development mode builds.
+- Fixed: VitePress minified the inline head scripts from `privatusHead` and `privatusTransformHead`, which
+  changed the official queue stub and undid the page props escaping (found by the conformance tests). They
+  now carry `type="text/ecmascript"`, so VitePress leaves them exactly as printed.
 - README: the privacy section has a paragraph you can paste into your privacy policy.
+- `example/`: a tiny site for the Privatus conformance tests, built with the plugin and served by nginx.
 
 ## 1.0.0 - 2026-10-25
 

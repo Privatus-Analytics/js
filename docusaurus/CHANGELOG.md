@@ -6,6 +6,8 @@
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
   Before, it printed nothing. With `queueStub` off it still prints nothing.
 - README: the privacy section has a paragraph you can paste into your privacy policy.
+- README: `docusaurus build` minifies the inline scripts; how to keep the exact text.
+- `example/`: a tiny site for the Privatus conformance tests, built with the plugin and served by nginx.
 
 ## 1.0.0 - 2026-10-25
 

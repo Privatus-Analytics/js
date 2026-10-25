@@ -51,8 +51,17 @@ export interface PrivatusHeadOptions extends Omit<BaseOptions<void>, 'props'> {
 export type PrivatusTransformHeadOptions = BaseOptions<TransformHeadContext>
 export type PrivatusViteOptions = BaseOptions<IndexHtmlContext>
 
+/**
+ * The type for inline scripts. VitePress minifies every inline head script whose type is
+ * missing or has "javascript" in it, which changes the official queue stub and undoes the
+ * page props escaping. text/ecmascript is a standard JavaScript type, so browsers run the
+ * script as normal, and VitePress leaves it exactly as printed.
+ */
+const INLINE_TYPE = 'text/ecmascript'
+
 function toHead(element: ScriptElement): HeadConfig {
   const attrs: Record<string, string> = {}
+  if (element.code !== undefined) attrs.type = INLINE_TYPE
   for (const [name, value] of Object.entries(element.attributes)) attrs[name] = value === true ? '' : value
   return element.code !== undefined ? ['script', attrs, element.code] : ['script', attrs]
 }

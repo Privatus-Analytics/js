@@ -222,8 +222,10 @@ the tracker at it:
 <script defer src="https://privatusstats.com/js/pa.js" data-site="pa_YOURSITEID" data-props="privatusPageProps"></script>
 ```
 
-VitePress shortens inline head scripts in the build, so the props script in
-your HTML may look a little different. It does the same thing.
+VitePress shortens (minifies) inline head scripts in the build. So the plugin
+gives its inline scripts `type="text/ecmascript"`, a standard JavaScript type
+that browsers run as normal and VitePress leaves alone. The scripts in your
+HTML are then exactly the ones above.
 
 Keys follow the same rules as event props. Numbers and `true` or `false` stay
 as they are, and lists stay lists (up to 30 items). The props are escaped so
@@ -293,6 +295,10 @@ The tests run in Docker so your local Node does not matter. From the repo root:
 
 It installs every package, then runs the repo's `build`, `test` and
 `typecheck` scripts in a `node:22-slim` container.
+
+`example/` is a small VitePress site for the Privatus Analytics conformance tests,
+which check the tag in a real browser. The site is built with the plugin and
+served by nginx.
 
 ## Contributing
 
