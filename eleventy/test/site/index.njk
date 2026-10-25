@@ -1,0 +1,6 @@
+---
+layout: base.njk
+title: Home
+---
+<button {% privatusEventAttrs "Report exported", { format: "csv", "Report Type": "monthly" } %}>Export</button>
+<a href="/pricing/" {% privatusClickAttr "pricing.cta" %}>See plans</a>

@@ -1,0 +1,74 @@
+{
+  "name": "gatsby-plugin-privatus",
+  "version": "1.0.0",
+  "description": "Gatsby plugin for Privatus Analytics: adds the cookieless tracking script to production builds",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "gatsby"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "analytics",
+    "privacy",
+    "cookieless",
+    "privatus"
+  ],
+  "sideEffects": false,
+  "main": "./index.js",
+  "types": "./dist/gatsby-ssr.d.ts",
+  "exports": {
+    ".": "./index.js",
+    "./gatsby-ssr": {
+      "types": "./dist/gatsby-ssr.d.ts",
+      "default": "./gatsby-ssr.js"
+    },
+    "./gatsby-ssr.js": "./gatsby-ssr.js",
+    "./gatsby-node": "./gatsby-node.js",
+    "./gatsby-node.js": "./gatsby-node.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "index.js",
+    "gatsby-ssr.js",
+    "gatsby-node.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p . && tsup",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "gatsby": ">=4",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@privatus/html-core": "1.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "joi": "^17.13.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "provenance": true
+  },
+  "peerDependenciesMeta": {
+    "gatsby": {
+      "optional": true
+    }
+  }
+}

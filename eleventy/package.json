@@ -1,0 +1,66 @@
+{
+  "name": "eleventy-plugin-privatus",
+  "version": "1.0.0",
+  "description": "Eleventy plugin for Privatus Analytics: adds the cookieless tracking script to every page, with shortcodes for event and click attributes",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "eleventy"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "11ty",
+    "analytics",
+    "privacy",
+    "cookieless",
+    "privatus"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p . && tsup",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@11ty/eleventy": ">=2"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.7",
+    "@privatus/html-core": "1.0.0",
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "provenance": true
+  }
+}

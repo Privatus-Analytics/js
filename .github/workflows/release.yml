@@ -1,0 +1,49 @@
+name: Release
+
+# Each folder is published on its own. Push a tag named <folder>-v<version>,
+# for example express-v1.0.0 or eleventy-v1.0.0. The version must match the
+# folder's package.json.
+on:
+  push:
+    tags: ["*-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    environment: release
+    permissions:
+      contents: read
+      # Lets npm trusted publishing swap a short-lived GitHub token for a
+      # one-time npm token. No npm token is stored in this repo.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+      # Trusted publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@latest
+      - name: Work out the folder and check the version
+        id: pkg
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          folder="${tag%-v*}"
+          version="${tag##*-v}"
+          test -f "$folder/package.json" || { echo "No package in folder $folder"; exit 1; }
+          actual=$(node -p "require('./$folder/package.json').version")
+          test "$actual" = "$version" || { echo "Tag says $version but $folder/package.json says $actual"; exit 1; }
+          if [ "$(node -p "require('./$folder/package.json').private === true")" = "true" ]; then
+            echo "$folder is private and is never published"; exit 1
+          fi
+          echo "folder=$folder" >> "$GITHUB_OUTPUT"
+      - run: npm ci
+      - run: npm run build -w @privatus/tracker
+      - run: npm run build -w ./${{ steps.pkg.outputs.folder }}
+      - run: npm test -w ./${{ steps.pkg.outputs.folder }}
+      # Provenance links the package to this workflow run. Trusted publishing adds it
+      # on its own; the flag makes it fail loudly if it cannot.
+      - run: npm publish -w ./${{ steps.pkg.outputs.folder }} --provenance --access public

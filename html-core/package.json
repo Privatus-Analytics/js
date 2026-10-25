@@ -1,0 +1,26 @@
+{
+  "name": "@privatus/html-core",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Internal. The HTML rules shared by the Privatus server and site generator packages. Bundled into each package, never published.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./node": "./src/node.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
+  }
+}

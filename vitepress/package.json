@@ -1,0 +1,76 @@
+{
+  "name": "vitepress-plugin-privatus",
+  "version": "1.0.0",
+  "description": "Privatus Analytics for VitePress and Vite: head entries, a build-time transformHead hook and a Vite plugin for the cookieless tracking script",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "vitepress"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
+  "keywords": [
+    "vitepress",
+    "vitepress-plugin",
+    "vite-plugin",
+    "vite",
+    "analytics",
+    "privacy",
+    "cookieless",
+    "privatus"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p . && tsup",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "vitepress": ">=1",
+    "vite": ">=4"
+  },
+  "devDependencies": {
+    "@privatus/html-core": "1.0.0",
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitepress": "^1.6.4",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "provenance": true
+  },
+  "peerDependenciesMeta": {
+    "vitepress": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  }
+}
