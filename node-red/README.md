@@ -1,14 +1,21 @@
 # node-red-contrib-privatus-analytics
 
-Checking your stats means leaving Node-RED and logging into another dashboard.
-With these nodes your flows get your visitors, top pages and live visitors from
-[Privatus Analytics](https://privatusanalytics.com) on their own. So you can post
-a daily report to Slack, show numbers on a wall screen or send an alert when
-something changes.
+**Put your website stats to work in your Node-RED flows.**
 
-A webhook node is included too. Privatus Analytics can call your flow when an
-alert fires, a site goes down or an export is ready. The node checks that the
-call really came from Privatus Analytics before your flow runs.
+Checking your stats means leaving Node-RED and logging into another dashboard.
+And nobody wants to copy numbers by hand each morning.
+
+These nodes get your visitors, top pages and live visitors from Privatus
+Analytics, right inside your flows. A webhook node starts a flow when Privatus
+Analytics tells you something happened, like an alert or a site going down. It
+checks that the call really came from Privatus Analytics first.
+
+So you can post a daily report to your team chat, show numbers on a wall screen
+or send an alert when something changes. The numbers are honest too. Privatus
+Analytics counts visits without cookies, so there is no cookie pop-up for your
+analytics, and it leaves bots out.
+
+**Free plan, no card:** 10,000 events a month (an event is a page view or an action you track) on up to 3 sites. [Start free at privatusanalytics.com](https://privatusanalytics.com).
 
 ## What you get
 

@@ -1,12 +1,29 @@
 # nodebb-plugin-privatus-analytics
 
-You want to know how many people read your forum and how they found it. But
-most analytics tools follow your members around with cookies and need a
-pop-up to ask for permission first. This plugin adds
-[Privatus Analytics](https://privatusanalytics.com) to your NodeBB forum
-instead. It counts visits without cookies, so there is nothing stored on your
-members' devices. You set it up in one minute from the admin panel, with no
-code and no theme changes.
+**Real visitor numbers for your NodeBB forum. No cookies, no cookie pop-up, no bots.**
+
+You want to know if people visit your NodeBB forum. But Google Analytics uses
+cookies, so in many countries you must show a cookie pop-up first (the box that
+asks visitors to say yes to cookies). Many people click no, so they never show
+up in your numbers. Bots add fake visits on top.
+
+This plugin adds the Privatus Analytics script to every forum page for you. You
+set it up in one minute from the admin panel, with no code. The script sets no
+cookies and keeps no IP addresses. Bots are filtered out before they are
+counted.
+
+So you see how many real people came, which pages they looked at and where they
+came from, on one simple dashboard. A report comes to your inbox each week, and
+you can set alerts for when traffic jumps or drops. And you don't need a cookie
+pop-up for your analytics.
+
+**Free plan, no card:** 10,000 events a month (an event is a page view or an action you track) on up to 3 sites. [Start free at privatusanalytics.com](https://privatusanalytics.com).
+
+- **No cookies.** No cookies and no hidden IDs on your visitors' devices, and no IP
+  addresses are kept. Laws differ by country, so check your own legal advice.
+- **Real people, not bots.** Known bots, data centers and spam visits are left
+  out on every plan.
+- **Small and fast.** The script is about 3 KB when compressed.
 
 ## What you get
 

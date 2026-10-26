@@ -1,21 +1,29 @@
 # @privatus-analytics/react
 
-> **Not published yet.** Build and install `@privatus-analytics/react` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
+**Real visitor numbers for your React app. No cookies, no cookie pop-up, no bots.**
 
-**Simple, private website analytics for your React app.** No cookies, honest numbers, and a dashboard you understand in seconds.
+You want to know if people use your React app. But Google Analytics uses
+cookies, so in many countries you must show a cookie pop-up first (the box that
+asks visitors to say yes to cookies). Many people click no, so they never show
+up in your numbers. Bots add fake visits on top.
 
-## Why Privatus Analytics
+This package adds the Privatus Analytics script to your React app with one
+component, and gives you a hook to track events. It is safe for server-side
+rendering: the script only loads in the browser. The script sets no cookies and
+keeps no IP addresses. Bots are filtered out before they are counted.
 
-**Google Analytics is slow, confusing and hungry for data.** It sends what your visitors do to Google. In many countries it needs a cookie pop-up (the box that asks visitors to accept cookies), and everyone who clicks "reject" is lost from your numbers.
+So you see how many real people came, which pages they looked at and where they
+came from, on one simple dashboard. A report comes to your inbox each week, and
+you can set alerts for when traffic jumps or drops. And you don't need a cookie
+pop-up for your analytics.
 
-**Privatus Analytics fixes that.** It counts visits to your React app without cookies and never stores IP addresses. Bots are filtered out before they are counted, and your data is never sold or shared.
+**Free plan, no card:** 10,000 events a month (an event is a page view or an action you track) on up to 3 sites. [Start free at privatusanalytics.com](https://privatusanalytics.com).
 
-- **A dashboard you understand in seconds.** Visitors, top pages and where people came from, all on one screen.
-- **No cookie pop-up needed for our analytics.** We set no cookies and store no personal data. Laws differ by country, so check your own legal advice.
-- **A fast app.** The tracking script is about 3 KB, tiny next to most tracking tags.
-
-**Start free.** The Free plan has 10,000 events a month and 3 sites, with no card. [Create your account](https://privatusanalytics.com).
+- **No cookies.** No cookies and no hidden IDs on your visitors' devices, and no IP
+  addresses are kept. Laws differ by country, so check your own legal advice.
+- **Real people, not bots.** Known bots, data centers and spam visits are left
+  out on every plan.
+- **Small and fast.** The script is about 3 KB when compressed.
 
 ## What this package does
 

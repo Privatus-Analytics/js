@@ -1,37 +1,29 @@
 # @privatus-analytics/nestjs
 
-> **Not published yet.** Build and install `@privatus-analytics/nestjs` from this folder until the first release.
-> The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
+**Real visitor numbers for your NestJS app. No cookies, no cookie pop-up, no bots.**
 
-**Simple, private website analytics for your NestJS app.** No cookies, honest
-numbers, and a dashboard you understand in seconds.
+You want to know if people use your NestJS app. But Google Analytics uses
+cookies, so in many countries you must show a cookie pop-up first (the box that
+asks visitors to say yes to cookies). Many people click no, so they never show
+up in your numbers. Bots add fake visits on top.
 
-## Why Privatus Analytics
+This package adds the Privatus Analytics script to your NestJS app with a module
+and a service, template helpers, or a middleware setting that puts it in the
+page head for you. The script sets no cookies and keeps no IP addresses. Bots
+are filtered out before they are counted.
 
-**Google Analytics is slow, confusing and hungry for data.** It sends what your
-visitors do to Google. In many countries it means showing a cookie pop-up (the
-box that asks visitors to accept cookies), and many people click "reject", so
-you never see them. Bots pad the numbers that are left.
+So you see how many real people came, which pages they looked at and where they
+came from, on one simple dashboard. A report comes to your inbox each week, and
+you can set alerts for when traffic jumps or drops. And you don't need a cookie
+pop-up for your analytics.
 
-**Privatus Analytics fixes that.** It counts visits to your NestJS app without
-cookies and never stores IP addresses. Bots are filtered out before they are
-counted. Your data is never sold or shared.
+**Free plan, no card:** 10,000 events a month (an event is a page view or an action you track) on up to 3 sites. [Start free at privatusanalytics.com](https://privatusanalytics.com).
 
-What you get:
-
-- **A dashboard you understand in seconds.** Visitors, top pages and where
-  people came from, all on one screen.
-- **No cookie pop-up needed for our analytics.** We set no cookies and store no
-  personal data. Laws differ by country, so check your own legal advice.
-- **Honest numbers.** Known bots and fake traffic are left out on every plan.
-- **A fast app.** The tracking script is about 3 KB, tiny next to most tracking
-  tags.
-- **Data you own.** We never sell it or show you ads, and you can pull it out
-  any time through the API.
-
-**Start free.** The Free plan has 10,000 events a month and 3 sites, with no
-card. Every new account also gets 14 days of Pro free, with no card. [Create
-your account](https://privatusanalytics.com).
+- **No cookies.** No cookies and no hidden IDs on your visitors' devices, and no IP
+  addresses are kept. Laws differ by country, so check your own legal advice.
+- **Real people, not bots.** Known bots, data centers and spam visits are left
+  out on every plan.
+- **Small and fast.** The script is about 3 KB when compressed.
 
 ## What this package does
 

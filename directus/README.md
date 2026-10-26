@@ -1,10 +1,20 @@
 # directus-extension-privatus-analytics
 
+**See who reads your content, right inside Directus.**
+
 Your team writes and publishes content in Directus. But to see if anyone reads
-it, they have to leave Directus and log into another dashboard. This extension
-puts your [Privatus Analytics](https://privatusanalytics.com) numbers right on a
-Directus dashboard. Everyone sees today's visitors, pageviews and top pages
-next to the content they manage, without one more login.
+it, they have to leave Directus and log into another dashboard.
+
+This extension adds a Privatus Analytics panel to your Directus dashboards. It
+shows visitors, pageviews and top pages for the site and time you pick. It only
+reads your reports and tracks no one in Directus.
+
+So everyone sees what people read next to the content they manage, without one
+more login. The numbers are honest too. Privatus Analytics counts visits without
+cookies, so there is no cookie pop-up for your analytics, and it leaves bots
+out.
+
+**Free plan, no card:** 10,000 events a month (an event is a page view or an action you track) on up to 3 sites. [Start free at privatusanalytics.com](https://privatusanalytics.com).
 
 ## What you get
 
