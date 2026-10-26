@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 - 2026-10-26
 
+- README: a new intro that starts with the problem Privatus Analytics solves.
 - Fix: the tracking script now loads from the tracker host, `https://privatusstats.com/js/pa.js`, through
   `@privatus-analytics/tracker`. It used to point at `https://privatusanalytics.com`, the website.
   Needs the next `@privatus-analytics/tracker` release.

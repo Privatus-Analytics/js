@@ -1,6 +1,6 @@
 {
   "name": "directus-extension-privatus-analytics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Directus insights panel for Privatus Analytics: visitors, pageviews and top pages of your website on a Directus dashboard",
   "icon": "insights",
   "license": "MIT",

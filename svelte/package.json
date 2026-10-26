@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/svelte",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Privatus Analytics for Svelte and SvelteKit: use:privatus action and a handle hook",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

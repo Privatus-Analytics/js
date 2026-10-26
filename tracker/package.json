@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/tracker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typed, SSR-safe loader for the Privatus Analytics cookieless tracker (pa.js)",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

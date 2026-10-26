@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/hono",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Privatus Analytics for Hono: the cookieless tracking script tag, event and click attributes, page props and optional auto inject middleware",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

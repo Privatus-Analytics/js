@@ -1,6 +1,6 @@
 {
   "name": "vitepress-plugin-privatus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Privatus Analytics for VitePress and Vite: head entries, a build-time transformHead hook and a Vite plugin for the cookieless tracking script",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

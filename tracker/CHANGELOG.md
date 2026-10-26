@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 - 2026-10-26
 
+- README: a new intro that starts with the problem Privatus Analytics solves.
 - Fix: the hosted script now loads from the tracker host, `https://privatusstats.com/js/pa.js`, and hits go
   there too. It used to point at `https://privatusanalytics.com`, the website. `DEFAULT_HOST` is now
   `https://privatusstats.com`. Setting `api` or `src` works as before.

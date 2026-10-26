@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/express",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Privatus Analytics for Express: the cookieless tracking script tag, event and click attributes, page props and optional auto inject",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

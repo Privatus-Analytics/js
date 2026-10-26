@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/nuxt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Privatus Analytics module for Nuxt 3",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-plugin-privatus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Docusaurus plugin for Privatus Analytics: adds the cookieless tracking script to production builds",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

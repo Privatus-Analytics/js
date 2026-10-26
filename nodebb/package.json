@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-privatus-analytics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NodeBB plugin for Privatus Analytics: adds the cookieless tracking script to every forum page, with a settings page in the admin panel",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

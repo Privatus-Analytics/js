@@ -1,6 +1,6 @@
 {
   "name": "eleventy-plugin-privatus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Eleventy plugin for Privatus Analytics: adds the cookieless tracking script to every page, with shortcodes for event and click attributes",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/astro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Privatus Analytics integration for Astro",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

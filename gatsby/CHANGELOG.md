@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 1.0.1 - 2026-10-26
 
+- README: a new intro that starts with the problem Privatus Analytics solves.
 - Changed: with `queueStub` on, a tag that is off (outside production, `enabled: false` or no site id) now
   prints the queue stub and nothing else, so `privatus.track(...)` calls in your own JavaScript never fail.
   Before, it printed nothing. With `queueStub` off it still prints nothing. `onRenderBody` adds the stub

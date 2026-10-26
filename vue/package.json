@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/vue",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Privatus Analytics for Vue 3: plugin, usePrivatus() and v-privatus-event",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",

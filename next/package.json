@@ -1,6 +1,6 @@
 {
   "name": "@privatus-analytics/next",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Privatus Analytics for Next.js: a server-rendered script tag with page props, event and click attributes, and a <PrivatusAnalytics /> component and usePrivatus() hook",
   "license": "MIT",
   "homepage": "https://privatusanalytics.com",
