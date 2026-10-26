@@ -1,0 +1,52 @@
+{
+  "name": "nodebb-plugin-privatus-analytics",
+  "version": "1.0.0",
+  "description": "NodeBB plugin for Privatus Analytics: adds the cookieless tracking script to every forum page, with a settings page in the admin panel",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "author": "Privatus Analytics <james@privatusanalytics.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "nodebb"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
+  "keywords": [
+    "nodebb",
+    "nodebb-plugin",
+    "plugin",
+    "analytics",
+    "privacy",
+    "cookieless",
+    "privatus",
+    "privatus-analytics"
+  ],
+  "main": "library.js",
+  "files": [
+    "library.js",
+    "plugin.json",
+    "lib",
+    "public",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "nbbpm": {
+    "compatibility": "^3.0.0 || ^4.0.0"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "4.1.11"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

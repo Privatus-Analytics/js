@@ -42,7 +42,7 @@ jobs:
           echo "folder=$folder" >> "$GITHUB_OUTPUT"
       - run: npm ci
       - run: npm run build -w @privatus-analytics/tracker
-      - run: npm run build -w ./${{ steps.pkg.outputs.folder }}
+      - run: npm run build --if-present -w ./${{ steps.pkg.outputs.folder }}
       - run: npm test -w ./${{ steps.pkg.outputs.folder }}
       # Provenance links the package to this workflow run. Trusted publishing adds it
       # on its own; the flag makes it fail loudly if it cannot.

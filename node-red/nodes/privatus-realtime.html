@@ -1,0 +1,49 @@
+<script type="text/javascript">
+  RED.nodes.registerType('privatus-realtime', {
+    category: 'Privatus Analytics',
+    color: '#C7E9C0',
+    defaults: { name: { value: '' }, server: { value: '', type: 'privatus-config', required: true }, site: { value: '', validate: function (v) { return !v || /^pa_[A-Za-z0-9]+$/.test(v) } },   },
+    inputs: 1,
+    outputs: 1,
+    icon: 'font-awesome/fa-users',
+    paletteLabel: 'privatus realtime',
+    label: function () {
+      return this.name || 'privatus realtime'
+    },
+
+  })
+</script>
+
+<script type="text/html" data-template-name="privatus-realtime">
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-key"></i> Account</label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-site"><i class="fa fa-globe"></i> Site id</label>
+    <input type="text" id="node-input-site" placeholder="pa_XXXXXXXXXX" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="privatus-realtime">
+  <p>Gets what is happening on a site right now: the visitors of the last 5 minutes and the top pages, sources and countries of the last 30 minutes.</p>
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt class="optional">site <span class="property-type">string</span></dt>
+    <dd>A site id such as <code>pa_7Q2K9XH3AB</code>. It replaces the site id set in the node.</dd>
+    <dt class="optional">filters <span class="property-type">array</span></dt>
+    <dd>Only count matching visits, for example <code>[["country","is","US"],["page","starts_with","/blog"]]</code>.</dd>
+  </dl>
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">object</span></dt>
+    <dd><code>live_visitors</code> is the number of visitors in the last 5 minutes. <code>top_pages</code>, <code>top_referrers</code>
+      and <code>top_countries</code> list up to 8 rows of <code>value</code> and <code>visits</code>. <code>feed</code> has the latest
+      pageviews and events, with no personal data.</dd>
+  </dl>
+  <p>If the call fails, the node reports an error you can catch with a Catch node. <code>msg.statusCode</code> has the HTTP status.</p>
+</script>

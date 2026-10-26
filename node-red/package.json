@@ -1,0 +1,60 @@
+{
+  "name": "node-red-contrib-privatus-analytics",
+  "version": "1.0.0",
+  "description": "Node-RED nodes for Privatus Analytics: get visitors, top pages and live visitors from the API, and receive signed Privatus Analytics webhooks",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "author": "Privatus Analytics <james@privatusanalytics.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "node-red"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
+  "keywords": [
+    "node-red",
+    "privatus",
+    "privatus-analytics",
+    "analytics",
+    "web-analytics",
+    "privacy",
+    "cookieless",
+    "webhook"
+  ],
+  "main": "nodes/privatus-config.js",
+  "files": [
+    "lib",
+    "nodes",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "node-red": {
+    "version": ">=3.0.0",
+    "nodes": {
+      "privatus-config": "nodes/privatus-config.js",
+      "privatus-stats": "nodes/privatus-stats.js",
+      "privatus-breakdown": "nodes/privatus-breakdown.js",
+      "privatus-realtime": "nodes/privatus-realtime.js",
+      "privatus-webhook": "nodes/privatus-webhook.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "validate": "npx -y node-red-dev@0.1.6 validate"
+  },
+  "devDependencies": {
+    "node-red": "4.1.17",
+    "node-red-node-test-helper": "0.3.6",
+    "vitest": "4.1.11"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

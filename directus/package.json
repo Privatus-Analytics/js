@@ -1,0 +1,58 @@
+{
+  "name": "directus-extension-privatus-analytics",
+  "version": "1.0.0",
+  "description": "Directus insights panel for Privatus Analytics: visitors, pageviews and top pages of your website on a Directus dashboard",
+  "icon": "insights",
+  "license": "MIT",
+  "homepage": "https://privatusanalytics.com",
+  "author": "Privatus Analytics <james@privatusanalytics.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Privatus-Analytics/js.git",
+    "directory": "directus"
+  },
+  "bugs": {
+    "url": "https://github.com/Privatus-Analytics/js/issues"
+  },
+  "keywords": [
+    "directus",
+    "directus-extension",
+    "directus-extension-panel",
+    "analytics",
+    "privacy",
+    "cookieless",
+    "privatus",
+    "privatus-analytics"
+  ],
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "directus:extension": {
+    "type": "panel",
+    "path": "dist/index.js",
+    "source": "src/index.ts",
+    "host": "^10.10.0 || ^11.0.0 || ^12.0.0"
+  },
+  "scripts": {
+    "build": "directus-extension build",
+    "dev": "directus-extension build -w --no-minify",
+    "validate": "directus-extension validate",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@directus/extensions-sdk": "18.0.6",
+    "@vue/test-utils": "2.5.1",
+    "happy-dom": "21.0.4",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11",
+    "vue": "3.5.43"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

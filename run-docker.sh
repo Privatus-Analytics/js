@@ -21,8 +21,14 @@ docker run --rm -v "$PWD":/src:ro -w /app node:22-slim sh -c 'set -e
     if (typeof require(\"./gatsby/gatsby-ssr.js\").onRenderBody !== \"function\") process.exit(1)
     if (typeof require(\"./gatsby/gatsby-node.js\").pluginOptionsSchema !== \"function\") process.exit(1)
     if (typeof require(\"./next/dist/server.cjs\").PrivatusAnalyticsTag !== \"function\") process.exit(1)
+    for (const n of [\"config\", \"stats\", \"breakdown\", \"realtime\", \"webhook\"]) {
+      if (typeof require(\"./node-red/nodes/privatus-\" + n + \".js\") !== \"function\") process.exit(1)
+    }
+    if (typeof require(\"./nodebb/library.js\").addTrackingScript !== \"function\") process.exit(1)
     console.log(\"CommonJS entry points load.\")"
-  for p in express fastify hono nestjs eleventy docusaurus vitepress gatsby; do
+  test -s directus/dist/index.js
+  npm run validate -w directus
+  for p in express fastify hono nestjs eleventy docusaurus vitepress gatsby node-red nodebb directus; do
     npm pack --dry-run --json -w "$p" | node -e "
       const [r] = JSON.parse(require(\"fs\").readFileSync(0, \"utf8\"))
       console.log(r.name + \"@\" + r.version + \": \" + r.files.map((f) => f.path).join(\", \"))"

@@ -1,0 +1,17 @@
+{
+  "id": "nodebb-plugin-privatus-analytics",
+  "name": "Privatus Analytics",
+  "description": "Adds the cookieless Privatus Analytics tracking script to every forum page",
+  "url": "https://github.com/Privatus-Analytics/js/tree/main/nodebb",
+  "library": "./library.js",
+  "settingsRoute": "/admin/plugins/privatus-analytics",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
+    { "hook": "filter:middleware.renderHeader", "method": "addTrackingScript" }
+  ],
+  "modules": {
+    "../admin/plugins/privatus-analytics.js": "./public/lib/admin.js"
+  },
+  "templates": "templates"
+}

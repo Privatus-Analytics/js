@@ -1,0 +1,73 @@
+<script type="text/javascript">
+  RED.nodes.registerType('privatus-webhook', {
+    category: 'Privatus Analytics',
+    color: '#C7E9C0',
+    defaults: {
+      name: { value: '' },
+      url: { value: '/privatus/webhook', required: true },
+    },
+    credentials: {
+      secret: { type: 'password' },
+    },
+    inputs: 0,
+    outputs: 1,
+    icon: 'font-awesome/fa-bell',
+    paletteLabel: 'privatus webhook',
+    label: function () {
+      return this.name || 'privatus webhook ' + this.url
+    },
+    oneditprepare: function () {
+      var root = RED.settings.httpNodeRoot || '/'
+      if (root.slice(-1) !== '/') root += '/'
+      var update = function () {
+        var path = ($('#node-input-url').val() || '').replace(/^\//, '')
+        $('#privatus-webhook-full-url').text(location.origin + root + path)
+      }
+      $('#node-input-url').on('input', update)
+      update()
+    },
+  })
+</script>
+
+<script type="text/html" data-template-name="privatus-webhook">
+  <div class="form-row">
+    <label for="node-input-url"><i class="fa fa-globe"></i> URL path</label>
+    <input type="text" id="node-input-url" placeholder="/privatus/webhook" />
+  </div>
+  <div class="form-row">
+    <label>&nbsp;</label>
+    <code id="privatus-webhook-full-url"></code>
+  </div>
+  <div class="form-row">
+    <label for="node-input-secret"><i class="fa fa-key"></i> Secret</label>
+    <input type="password" id="node-input-secret" placeholder="whsec_..." />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="privatus-webhook">
+  <p>Receives webhooks from Privatus Analytics, for example when an alert fires, an uptime check goes down or an export is ready.
+    It only lets a webhook through when its signature is right.</p>
+  <h3>Setup</h3>
+  <p>In Privatus Analytics, open Workspace settings, Webhooks and add an endpoint. Use the full URL shown under URL path.
+    Node-RED must be reachable from the internet over HTTPS. Copy the secret (it starts with <code>whsec_</code>) into this node.</p>
+  <h3>How it checks</h3>
+  <p>Every webhook has a <code>Privatus-Signature</code> header like <code>t=1761436800,v1=5f2b...</code>.
+    The node works out the HMAC-SHA256 of the time, a dot and the raw body with your secret, and compares it.
+    It also refuses a webhook whose time is more than 5 minutes off. A bad webhook gets status 401 and makes no message.</p>
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">object</span></dt>
+    <dd>The webhook body: <code>id</code>, <code>event</code>, <code>created_at</code>, <code>workspace_id</code> and <code>data</code>.</dd>
+    <dt>topic, event <span class="property-type">string</span></dt>
+    <dd>The event name, for example <code>alert.triggered</code> or <code>uptime.down</code>.</dd>
+    <dt>delivery <span class="property-type">string</span></dt>
+    <dd>The delivery id. A retry of the same delivery has the same id, so you can skip ones you already handled.</dd>
+    <dt>headers <span class="property-type">object</span></dt>
+    <dd>The request headers.</dd>
+  </dl>
+  <p>The node replies with status 200 right away, so you do not need an http response node.</p>
+</script>

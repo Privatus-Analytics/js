@@ -1,0 +1,43 @@
+<script type="text/javascript">
+  RED.nodes.registerType('privatus-config', {
+    category: 'config',
+    defaults: {
+      name: { value: '' },
+      apiUrl: { value: 'https://privatusanalytics.com', required: true },
+    },
+    credentials: {
+      token: { type: 'password' },
+    },
+    label: function () {
+      return this.name || 'Privatus Analytics'
+    },
+  })
+</script>
+
+<script type="text/html" data-template-name="privatus-config">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="Privatus Analytics" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-token"><i class="fa fa-key"></i> API token</label>
+    <input type="password" id="node-config-input-token" placeholder="pat_..." />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-apiUrl"><i class="fa fa-globe"></i> API URL</label>
+    <input type="text" id="node-config-input-apiUrl" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="privatus-config">
+  <p>Your Privatus Analytics API token. The stats, breakdown and realtime nodes use it.</p>
+  <h3>Properties</h3>
+  <dl class="message-properties">
+    <dt>API token <span class="property-type">string</span></dt>
+    <dd>Create one in Privatus Analytics under Workspace settings, API tokens. A token with only the
+      <code>analytics.read</code> permission is enough. You can also limit it to some sites.
+      Node-RED keeps it in its credentials file, not in the flow.</dd>
+    <dt>API URL <span class="property-type">string</span></dt>
+    <dd>Leave it as <code>https://privatusanalytics.com</code>.</dd>
+  </dl>
+</script>
