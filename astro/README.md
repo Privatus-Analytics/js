@@ -3,11 +3,32 @@
 > **Not published yet.** Build and install `@privatus-analytics/astro` from this folder until the first release.
 > The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
-Astro integration for [Privatus Analytics](https://privatusanalytics.com). Cookieless: no cookies, storage or device IDs.
+**Simple, private website analytics for your Astro site.** No cookies, honest numbers, and a dashboard you understand in seconds.
+
+## Why Privatus Analytics
+
+**Google Analytics is slow, confusing and hungry for data.** It sends what your visitors do to Google. In many countries it needs a cookie pop-up (the box that asks visitors to accept cookies), and everyone who clicks "reject" is lost from your numbers.
+
+**Privatus Analytics fixes that.** It counts visits to your Astro site without cookies and never stores IP addresses. Bots are filtered out before they are counted, and your data is never sold or shared.
+
+- **A dashboard you understand in seconds.** Visitors, top pages and where people came from, all on one screen.
+- **No cookie pop-up needed for our analytics.** We set no cookies and store no personal data. Laws differ by country, so check your own legal advice.
+- **A fast site.** The tracking script is about 3 KB, tiny next to most tracking tags.
+
+**Start free.** The Free plan has 10,000 events a month and 3 sites, with no card. [Create your account](https://privatusanalytics.com).
+
+## What this package does
+
+- An Astro integration that adds the Privatus Analytics tracking script to every page, with a `track()` helper for events.
+- Sets no cookies, uses no storage and no device ids.
+
+## Install
 
 ```sh
 npm install @privatus-analytics/astro
 ```
+
+## Usage
 
 ```js
 // astro.config.mjs

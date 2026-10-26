@@ -3,7 +3,26 @@
 > **Not published yet.** Build and install `@privatus-analytics/tracker` from this folder until the first release.
 > The `@privatus` scope on npm belongs to another organisation, so packages under that scope are not ours.
 
-A typed, SSR-safe loader for the [Privatus Analytics](https://privatusanalytics.com) tracker (`pa.js`). Privatus Analytics is cookieless analytics: no cookies, no localStorage or sessionStorage, no fingerprinting and no device IDs. This package keeps that promise and adds no storage of its own.
+**Simple, private website analytics for any JavaScript site or app.** No cookies, honest numbers, and a dashboard you understand in seconds.
+
+## Why Privatus Analytics
+
+**Google Analytics is slow, confusing and hungry for data.** It sends what your visitors do to Google. In many countries it needs a cookie pop-up (the box that asks visitors to accept cookies), and everyone who clicks "reject" is lost from your numbers.
+
+**Privatus Analytics fixes that.** It counts visits to any JavaScript site or app without cookies and never stores IP addresses. Bots are filtered out before they are counted, and your data is never sold or shared.
+
+- **A dashboard you understand in seconds.** Visitors, top pages and where people came from, all on one screen.
+- **No cookie pop-up needed for our analytics.** We set no cookies and store no personal data. Laws differ by country, so check your own legal advice.
+- **A fast site.** The tracking script is about 3 KB, tiny next to most tracking tags.
+
+**Start free.** The Free plan has 10,000 events a month and 3 sites, with no card. [Create your account](https://privatusanalytics.com).
+
+## What this package does
+
+- A typed loader for the Privatus Analytics tracker (`pa.js`) that is safe to import during server-side rendering (SSR).
+- Privatus Analytics uses no cookies, no localStorage or sessionStorage, no fingerprinting and no device ids. This package keeps that promise and adds no storage of its own.
+
+## Install
 
 ```sh
 npm install @privatus-analytics/tracker
