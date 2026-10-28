@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "paths": {
+      "@privatus-analytics/html-core": ["../html-core/src/index.ts"],
+      "@privatus-analytics/html-core/node": ["../html-core/src/node.ts"]
+    }
+  },
+  "include": ["src", "test"]
+}

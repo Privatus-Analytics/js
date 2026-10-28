@@ -18,6 +18,7 @@
     "eleventy",
     "docusaurus",
     "vitepress",
+    "rspress",
     "gatsby",
     "node-red",
     "nodebb",

@@ -44,6 +44,7 @@ Each folder is its own npm package. Pick the one for your framework.
 | Eleventy | [`eleventy-plugin-privatus`](eleventy) |
 | Docusaurus | [`docusaurus-plugin-privatus`](docusaurus) |
 | VitePress and Vite | [`vitepress-plugin-privatus`](vitepress) |
+| Rspress | [`rspress-plugin-privatus`](rspress) |
 | Gatsby | [`gatsby-plugin-privatus`](gatsby) |
 | Any other site or app | [`@privatus-analytics/tracker`](tracker) |
 | NodeBB forums | [`nodebb-plugin-privatus-analytics`](nodebb) |
